@@ -238,7 +238,7 @@ def menu():
         elif opcao == "16":
             sistema.listar_favoritos()
         elif opcao == "0":
-            print("Saindo... Até mais!")
+            print("Saindo... obrigado por utilizar o FutLab!")
             break
         else:
             print("Opção inválida, tente novamente.")
