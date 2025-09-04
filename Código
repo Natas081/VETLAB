@@ -1,0 +1,249 @@
+class CopaSystem:
+    def __init__(self):
+        self.selecoes = {
+            "BRA": "Brasil",
+            "ARG": "Argentina",
+            "POR": "Portugal",
+            "FRA": "França"
+        }
+
+        self.jogos = [
+            {"id": "j1", "data": "21/11/2022", "hora": "16:00", "estadio": "Lusail", "casa": "BRA", "fora": "ARG"},
+            {"id": "j2", "data": "22/11/2022", "hora": "19:00", "estadio": "974", "casa": "POR", "fora": "FRA"},
+        ]
+
+        self.historico = {
+            "BRA": {"participacoes": 22, "titulos": 5, "melhor": 1},
+            "ARG": {"participacoes": 17, "titulos": 3, "melhor": 1},
+            "POR": {"participacoes": 8, "titulos": 0, "melhor": 3},
+            "FRA": {"participacoes": 16, "titulos": 2, "melhor": 1}
+        }
+
+        self.jogadores = {
+            "Messi": {"gols": 7, "assistencias": 3},
+            "Neymar": {"gols": 2, "assistencias": 1},
+            "Cristiano Ronaldo": {"gols": 1, "assistencias": 0}
+        }
+
+        self.valores_mercado = {
+            "Messi": {"valor": 50, "variacao": +5},
+            "Neymar": {"valor": 60, "variacao": -10},
+            "Cristiano Ronaldo": {"valor": 30, "variacao": -15}
+        }
+
+        self.estadios = {
+            "Lusail": {"cidade": "Lusail", "pais": "Qatar", "capacidade": 80000},
+            "974": {"cidade": "Doha", "pais": "Qatar", "capacidade": 40000}
+        }
+
+        self.curiosidades_2022 = [
+            "Foi a primeira Copa do Mundo realizada no Oriente Médio.",
+            "A Copa de 2022 foi disputada em novembro e dezembro, por causa do calor no Qatar.",
+            "Messi conquistou seu primeiro título mundial em 2022."
+        ]
+
+        self.favoritos = []
+        self.noticias_salvas = []
+        self.edicao_selecionada = None
+
+    def salvar_favoritos(self):
+        print("\nSeleções disponíveis:")
+        for sigla, nome in self.selecoes.items():
+            print(f"{sigla} - {nome}")
+        escolhas = input("Digite as siglas das seleções favoritas separadas por vírgula: ").upper().split(",")
+        escolhas = [e.strip() for e in escolhas if e.strip() in self.selecoes]
+        if not escolhas:
+            print("Erro: Escolha uma seleção favorita")
+        else:
+            self.favoritos = escolhas
+            print("Favoritas salvas com sucesso:", [self.selecoes[e] for e in escolhas])
+
+    def remover_favorito(self):
+        if not self.favoritos:
+            print("\nNenhuma seleção favorita cadastrada.")
+            return
+        print("\nSeleções favoritas atuais:")
+        for f in self.favoritos:
+            print(f"- {self.selecoes[f]}")
+        rem = input("Digite a sigla da seleção que deseja remover: ").upper()
+        if rem in self.favoritos:
+            self.favoritos.remove(rem)
+            print(f"{self.selecoes[rem]} removida dos favoritos.")
+        else:
+            print("Seleção não encontrada nos favoritos.")
+
+    def listar_favoritos(self):
+        print("\nSeleções Favoritas:")
+        if not self.favoritos:
+            print("Nenhuma seleção favorita cadastrada.")
+        else:
+            for f in self.favoritos:
+                print(f"- {self.selecoes[f]}")
+
+    def tabela_jogos(self):
+        print("\nTabela de Jogos:")
+        jogos = self.jogos if not self.favoritos else [j for j in self.jogos if j["casa"] in self.favoritos or j["fora"] in self.favoritos]
+        for j in jogos:
+            print(f"{j['data']} {j['hora']} - {self.selecoes[j['casa']]} x {self.selecoes[j['fora']]} (Estádio: {j['estadio']})")
+
+    def ver_historico(self):
+        selecao = input("Digite a sigla da seleção: ").upper()
+        h = self.historico.get(selecao)
+        if h:
+            print(f"\nHistórico de {self.selecoes[selecao]}:")
+            print(f"Participações: {h['participacoes']}")
+            print(f"Títulos: {h['titulos']}")
+            print(f"Melhor colocação: {h['melhor']}")
+        else:
+            print("Sem histórico disponível.")
+
+    def estatisticas_jogadores(self):
+        print("\nEstatísticas dos jogadores (Copa 2022):")
+        for nome, stats in self.jogadores.items():
+            print(f"{nome} - Gols: {stats['gols']}, Assistências: {stats['assistencias']}")
+
+    def detalhe_jogador(self):
+        nome = input("Digite o nome do jogador (Messi, Neymar, Cristiano Ronaldo): ")
+        stats = self.jogadores.get(nome)
+        if stats:
+            print(f"\n{nome} - Gols: {stats['gols']}, Assistências: {stats['assistencias']}")
+        else:
+            print("Jogador não encontrado.")
+
+    def salvar_noticia(self):
+        noticia = input("Digite a notícia para salvar: ")
+        self.noticias_salvas.append(noticia)
+        print("Notícia salva!")
+
+    def listar_noticias(self):
+        print("\nNotícias Salvas:")
+        if not self.noticias_salvas:
+            print("Nenhuma notícia salva.")
+        else:
+            for i, n in enumerate(self.noticias_salvas, start=1):
+                print(f"{i}. {n}")
+
+    def remover_noticia(self):
+        if not self.noticias_salvas:
+            print("\nNenhuma notícia salva para remover.")
+            return
+        self.listar_noticias()
+        try:
+            idx = int(input("Digite o número da notícia que deseja remover: "))
+            if 1 <= idx <= len(self.noticias_salvas):
+                removida = self.noticias_salvas.pop(idx - 1)
+                print(f"Notícia removida: {removida}")
+            else:
+                print("Número inválido.")
+        except ValueError:
+            print("Entrada inválida.")
+
+    def valor_jogador(self):
+        nome = input("Digite o nome do jogador (Messi, Neymar, Cristiano Ronaldo): ")
+        v = self.valores_mercado.get(nome)
+        if v:
+            print(f"\n{nome} - Valor: €{v['valor']} milhões, Variação: {v['variacao']} milhões")
+        else:
+            print("Jogador não encontrado.")
+
+    def ranking_valor(self):
+        print("\nRanking dos mais valiosos:")
+        ranking = sorted(self.valores_mercado.items(), key=lambda x: x[1]["valor"], reverse=True)
+        for i, (nome, v) in enumerate(ranking, start=1):
+            print(f"{i}. {nome} - €{v['valor']} milhões")
+
+    def selecionar_edicao(self):
+        edicao = input("Digite a edição (ex: Copa 2022): ")
+        if not edicao:
+            print("Erro: Selecione uma edição da Copa para continuar")
+        else:
+            self.edicao_selecionada = edicao
+            print(f"Edição {edicao} selecionada.")
+
+    def listar_estadios(self):
+        print("\nEstádios da Copa:")
+        for nome, e in self.estadios.items():
+            print(f"{nome} - {e['cidade']}, {e['pais']} (Capacidade: {e['capacidade']})")
+
+    def detalhes_estadio(self):
+        nome = input("Digite o nome do estádio: ")
+        e = self.estadios.get(nome)
+        if e:
+            print(f"\n{nome} - {e['cidade']}, {e['pais']}")
+            print(f"Capacidade: {e['capacidade']}")
+        else:
+            print("Estádio não encontrado.")
+
+    def curiosidades(self):
+        print("\nCuriosidades da Copa 2022:")
+        for c in self.curiosidades_2022:
+            print("-", c)
+
+
+def menu():
+    sistema = CopaSystem()
+
+    while True:
+        print("\n===== MENU COPA DO MUNDO =====")
+        print("1. Cadastrar Seleções Favoritas")
+        print("2. Remover Seleção Favorita")
+        print("3. Visualizar Tabela de Jogos")
+        print("4. Ver Histórico de Seleções")
+        print("5. Estatísticas dos Jogadores")
+        print("6. Estatísticas Detalhadas de Jogador")
+        print("7. Salvar Notícia")
+        print("8. Listar Notícias Salvas")
+        print("9. Remover Notícia Salva")
+        print("10. Consultar Valor de Jogador")
+        print("11. Ranking de Valores de Mercado")
+        print("12. Selecionar Edição da Copa")
+        print("13. Listar Estádios")
+        print("14. Detalhes de Estádio")
+        print("15. Curiosidades da Copa 2022")
+        print("16. Visualizar Seleções Favoritas")
+        print("0. Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            sistema.salvar_favoritos()
+        elif opcao == "2":
+            sistema.remover_favorito()
+        elif opcao == "3":
+            sistema.tabela_jogos()
+        elif opcao == "4":
+            sistema.ver_historico()
+        elif opcao == "5":
+            sistema.estatisticas_jogadores()
+        elif opcao == "6":
+            sistema.detalhe_jogador()
+        elif opcao == "7":
+            sistema.salvar_noticia()
+        elif opcao == "8":
+            sistema.listar_noticias()
+        elif opcao == "9":
+            sistema.remover_noticia()
+        elif opcao == "10":
+            sistema.valor_jogador()
+        elif opcao == "11":
+            sistema.ranking_valor()
+        elif opcao == "12":
+            sistema.selecionar_edicao()
+        elif opcao == "13":
+            sistema.listar_estadios()
+        elif opcao == "14":
+            sistema.detalhes_estadio()
+        elif opcao == "15":
+            sistema.curiosidades()
+        elif opcao == "16":
+            sistema.listar_favoritos()
+        elif opcao == "0":
+            print("Saindo... Até mais!")
+            break
+        else:
+            print("Opção inválida, tente novamente.")
+
+
+if __name__ == "__main__":
+    menu()
+
