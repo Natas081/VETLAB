@@ -1,4 +1,6 @@
-<details><summary><h1><b>Entrega 01</b></h1></summary> 
+<h1><b>VETLAB</b></h1>
+
+<details><summary><h2><b>Entrega 01</b></h2></summary> 
 
 Telas importantes:
 <img width="1615" height="693" alt="image" src="https://github.com/user-attachments/assets/c27a9be5-6780-4c7a-a8f5-9c5431e35e00" />
@@ -12,5 +14,3 @@ Links importantes:
 [**Histórias**](https://docs.google.com/document/d/1iX8sOVrvuNe5e-3l2RcnAq2qmmCpz37GCDBJvqEitz4/edit?usp=sharing)
 
 [**Jira**](https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog)</details>
-
-
