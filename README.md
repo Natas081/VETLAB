@@ -1,4 +1,4 @@
-<h1><b>VETLAB</b></h1>
+<h1><b>VETLAB 🐶</b></h1>
 
 <details><summary><h2><b>Entrega 01</b></h2></summary> 
 
