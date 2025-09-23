@@ -1,8 +1,6 @@
 <h1><b>VETLAB 🐶</b></h1>
 <h2 style="text-align:center; font-size:3em; color:#FF8C00; margin-top:0;">Entrega 1</h2>
 
-<h2 style="text-align:center; font-size:3em; color:#FF8C00; margin-top:0;">Entrega 2</h2>
-
 <details>
   <summary><b>Telas importantes</b></summary>
 
@@ -24,3 +22,6 @@
 
   [**Apresentação do protótipo**](https://www.youtube.com/watch?v=ZgMttZb-H08)  
 </details>
+
+
+<h2 style="text-align:center; font-size:3em; color:#FF8C00; margin-top:0;">Entrega 2</h2>
