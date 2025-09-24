@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'pets/style.css' %}">
+<title>Excluir Pet</title></head>
+<body>
+<h1>Excluir {{ pet.nome }}?</h1>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmar</button>
+</form>
+<a href="{% url 'pet_list' %}">Cancelar</a>
+</body>
+</html>

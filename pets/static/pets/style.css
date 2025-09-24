@@ -1,0 +1,93 @@
+/* Importa uma fonte mais agradável do Google Fonts (Opcional, mas recomendado) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+/* --- Estilos Gerais --- */
+body {
+    /* Cor de fundo verde, parecida com a da imagem */
+    background-color: #34D399; 
+    /* Define a família da fonte para toda a página */
+    font-family: 'Poppins', sans-serif;
+    /* Remove margens padrão do navegador */
+    margin: 0;
+    /* Usa Flexbox para centralizar o conteúdo facilmente */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;    /* Centraliza verticalmente */
+    min-height: 100vh;      /* Garante que o corpo ocupe 100% da altura da tela */
+}
+
+/* --- Container Principal do Formulário --- */
+.form-container {
+    background-color: #f0f0f0; /* Um cinza bem claro para o container */
+    padding: 40px;
+    border-radius: 20px; /* Bordas arredondadas */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+    width: 100%;
+    max-width: 500px; /* Largura máxima para não ficar muito grande em telas maiores */
+    text-align: center; /* Centraliza o texto (título e botão) */
+}
+
+/* --- Título (CADASTRO DO PET) --- */
+.form-container h1 {
+    color: #333; /* Cor escura para o texto do título */
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 2em; /* Tamanho da fonte maior */
+}
+
+/* --- Estilo dos Campos do Formulário --- */
+/* O Django {{ form.as_p }} cria cada campo dentro de uma tag <p> */
+.form-container form p {
+    margin-bottom: 20px; /* Espaçamento entre os campos */
+    text-align: left; /* Alinha o texto dos labels à esquerda */
+}
+
+.form-container label {
+    display: block; /* Faz o label ocupar uma linha inteira */
+    font-weight: 600; /* Deixa o texto do label em negrito */
+    margin-bottom: 8px; /* Espaço entre o label e o campo de input */
+    color: #555;
+}
+
+/* Estilo para todos os campos de texto, email, número, etc. */
+.form-container input[type="text"],
+.form-container input[type="date"],
+.form-container input[type="number"] {
+    width: 100%; /* Ocupa toda a largura do container */
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+/* --- Botão de Salvar/Cadastrar --- */
+.form-container button {
+    background-color: #555; /* Cor de fundo escura para o botão */
+    color: white; /* Cor do texto do botão */
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer; /* Muda o cursor para uma "mãozinha" */
+    transition: background-color 0.3s ease; /* Efeito suave na troca de cor */
+    margin-top: 15px;
+}
+
+.form-container button:hover {
+    background-color: #333; /* Cor do botão ao passar o mouse */
+}
+
+/* --- Link de "Voltar" --- */
+.back-link {
+    display: block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: #555;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

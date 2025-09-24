@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{% static 'pets/style.css' %}">
+
+    <title>Lista de Pets</title>
+</head>
+<body>
+<h1>Pets</h1>
+<a href="{% url 'pet_create' %}">Adicionar Pet</a>
+<ul>
+{% for pet in pets %}
+    <li>
+        {{ pet.nome }} - {{ pet.especie }}
+        <a href="{% url 'pet_edit' pet.pk %}">Editar</a>
+        <a href="{% url 'pet_delete' pet.pk %}">Excluir</a>
+    </li>
+{% endfor %}
+</ul>
+</body>
+</html>
