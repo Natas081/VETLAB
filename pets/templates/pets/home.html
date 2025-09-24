@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Bem-vindo ao VetLab</title>
+</head>
+<body>
+
+    <main class="welcome-container">
+        
+        <div class="welcome-text">
+            <h1 class="line1">BEM-VINDO</h1>
+            <h2 class="line2">AO</h2>
+            <div class="line3-wrapper">
+                <h1 class="line3">VET LAB</h1>
+                <span class="star">★</span>
+            </div>
+        </div>
+
+        <a href="{% url 'pet_list' %}" class="start-button">Iniciar</a>
+
+    </main>
+    
+</body>
+</html>

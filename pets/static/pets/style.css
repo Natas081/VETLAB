@@ -91,3 +91,188 @@ body {
 .back-link:hover {
     text-decoration: underline;
 }
+
+/* --- PÁGINA INICIAL / BOAS-VINDAS --- */
+
+.welcome-container {
+    /* Usa a tela inteira */
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem;
+    box-sizing: border-box;
+
+    /* Cor de fundo */
+    background-color: #34D399;
+    color: white; /* Cor do texto padrão */
+
+    /* Organiza o conteúdo em coluna e centraliza */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* Evita barras de rolagem desnecessárias */
+}
+
+.welcome-text {
+    font-weight: bold;
+    line-height: 1.1; /* Altura da linha mais compacta */
+    text-transform: uppercase; /* Deixa todo o texto em maiúsculas */
+    margin-bottom: 50px; /* Espaço entre o texto e o botão */
+}
+
+.welcome-text .line1 {
+    font-size: clamp(3rem, 10vw, 6rem); /* Fonte responsiva */
+}
+
+.welcome-text .line2 {
+    font-size: clamp(2rem, 7vw, 4rem);
+    margin: 1rem 0;
+}
+
+.line3-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-text .line3 {
+    font-size: clamp(4rem, 14vw, 8rem);
+}
+
+.welcome-text .star {
+    font-size: clamp(3rem, 9vw, 5rem);
+    color: #FFD700; /* Cor amarela para a estrela */
+    margin-left: 1rem;
+    padding-bottom: 1rem; /* Alinha melhor com o texto */
+}
+
+.start-button {
+    background-color: white;
+    color: #34D399; /* Cor do texto do botão (verde) */
+    padding: 15px 40px;
+    border-radius: 50px; /* Botão bem arredondado */
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.start-button:hover {
+    transform: translateY(-5px); /* Efeito de "levantar" ao passar o mouse */
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+}
+
+/* --- PÁGINA DE LISTA DE PETS --- */
+
+/* O container principal, parecido com o do formulário */
+.list-container {
+    background-color: #f0f0f0;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 700px; /* Um pouco mais largo para a lista */
+    text-align: center;
+}
+
+/* Título da lista */
+.list-container h1 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* Botão verde para "Adicionar Novo Pet" */
+.add-pet-button {
+    display: inline-block;
+    background-color: #10B981; /* Um verde mais escuro */
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+    transition: background-color 0.3s ease;
+}
+
+.add-pet-button:hover {
+    background-color: #059669;
+}
+
+/* A área branca onde os pets são listados */
+.pet-list {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 20px;
+    text-align: left;
+}
+
+/* Cada linha de um pet na lista */
+.pet-item {
+    display: flex;
+    justify-content: space-between; /* Joga a info para a esquerda e os botões para a direita */
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee; /* Linha separadora */
+}
+
+/* Remove a linha do último item para ficar mais bonito */
+.pet-list .pet-item:last-child {
+    border-bottom: none;
+}
+
+/* Estilo para quando a lista está vazia */
+.pet-item-empty {
+    padding: 40px 0;
+    text-align: center;
+    color: #888;
+}
+
+/* Informações do pet */
+.pet-info .pet-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.pet-info .pet-species {
+    display: block; /* Fica abaixo do nome */
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 4px;
+}
+
+/* Container para os botões de ação */
+.pet-actions {
+    display: flex;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+/* Estilo base para os botões de ação */
+.edit-btn, .delete-btn {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 0.8;
+}
+
+/* Cor específica para o botão EDITAR */
+.edit-btn {
+    background-color: #3B82F6; /* Azul */
+}
+
+/* Cor específica para o botão EXCLUIR */
+.delete-btn {
+    background-color: #EF4444; /* Vermelho */
+}

@@ -1,22 +1,43 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<link rel="stylesheet" href="{% static 'pets/style.css' %}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
     <title>Lista de Pets</title>
 </head>
 <body>
-<h1>Pets</h1>
-<a href="{% url 'pet_create' %}">Adicionar Pet</a>
-<ul>
-{% for pet in pets %}
-    <li>
-        {{ pet.nome }} - {{ pet.especie }}
-        <a href="{% url 'pet_edit' pet.pk %}">Editar</a>
-        <a href="{% url 'pet_delete' pet.pk %}">Excluir</a>
-    </li>
-{% endfor %}
-</ul>
+
+    <main class="list-container">
+
+        <h1>LISTA DE PETS</h1>
+
+        <a href="{% url 'pet_create' %}" class="add-pet-button">Adicionar Novo Pet</a>
+
+        <div class="pet-list">
+            {% for pet in pets %}
+                <div class="pet-item">
+                    <div class="pet-info">
+                        <span class="pet-name">{{ pet.nome }}</span>
+                        <span class="pet-species">{{ pet.especie }}</span>
+                    </div>
+
+                    <div class="pet-actions">
+                        <a href="{% url 'pet_edit' pet.pk %}" class="edit-btn">Editar</a>
+                        <a href="{% url 'pet_delete' pet.pk %}" class="delete-btn">Excluir</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Nenhum pet cadastrado ainda.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a class="back-link" href="{% url 'home' %}">Voltar ao Início</a>
+
+    </main>
+
 </body>
 </html>
