@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Adicionar Evento</title>
+</head>
+<body>
+    <main class="form-container">
+        <h1>ADICIONAR EVENTO</h1>
+        <h2 style="font-size: 1.2rem; color: #555; margin-top: -20px; margin-bottom: 30px;">para {{ pet.nome }}</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">{{ form.instance.pk|yesno:"Salvar Alterações,Adicionar" }}</button>
+        </form>
+        <a class="back-link" href="{% url 'evento_selecionar_pet' %}">Voltar</a>
+    </main>
+</body>
+</html>

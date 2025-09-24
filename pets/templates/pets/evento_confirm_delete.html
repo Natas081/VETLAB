@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Confirmar Exclusão</title>
+</head>
+<body>
+    <main class="form-container">
+        <h1>Tem certeza que deseja excluir o evento?</h1>
+        
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">
+            "{{ evento.get_tipo_display }} em {{ evento.data|date:"d/m/Y" }}"
+        </p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn" style="background-color: #EF4444; color: white; padding: 12px 30px; font-size: 1rem;">
+                Sim, Excluir
+            </button>
+        </form>
+        
+        <a class="back-link" href="{% url 'evento_list' pet.pk %}">Cancelar e Voltar</a>
+    </main>
+</body>
+</html>

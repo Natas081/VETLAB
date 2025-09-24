@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Eventos de {{ pet.nome }}</title>
+</head>
+<body>
+
+    <main class="list-container">
+        <h1>Eventos de {{ pet.nome }}</h1>
+        <a href="{% url 'evento_adicionar' pet.pk %}" class="add-pet-button">Adicionar Novo Evento</a>
+        
+        <div class="pet-list">
+            {% for evento in eventos %}
+                <div class="pet-item">
+                    <div class="pet-info">
+                        <span class="pet-name">{{ evento.get_tipo_display }}</span>
+                        <span class="pet-species">{{ evento.data|date:"d/m/Y" }} - {{ evento.observacoes|default:"Sem observações" }}</span>
+                    </div>
+                    <div class="pet-actions">
+                        <a href="{% url 'evento_edit' evento.pk %}" class="edit-btn">Editar</a>
+                        <a href="{% url 'evento_delete' evento.pk %}" class="delete-btn">Excluir</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Nenhum evento cadastrado para este pet.</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
+    </main>
+
+</body>
+</html>

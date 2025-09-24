@@ -13,7 +13,10 @@
 
         <h1>LISTA DE PETS</h1>
 
-        <a href="{% url 'pet_create' %}" class="add-pet-button">Adicionar Novo Pet</a>
+        <div class="main-actions">
+            <a href="{% url 'pet_create' %}" class="add-pet-button">Adicionar Novo Pet</a>
+            <a href="{% url 'evento_selecionar_pet' %}" class="add-event-button">Cadastrar Evento</a>
+        </div>
 
         <div class="pet-list">
             {% for pet in pets %}

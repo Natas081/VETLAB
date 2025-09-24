@@ -3,80 +3,77 @@
 
 /* --- Estilos Gerais --- */
 body {
-    /* Cor de fundo verde, parecida com a da imagem */
     background-color: #34D399; 
-    /* Define a família da fonte para toda a página */
     font-family: 'Poppins', sans-serif;
-    /* Remove margens padrão do navegador */
     margin: 0;
-    /* Usa Flexbox para centralizar o conteúdo facilmente */
     display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center;    /* Centraliza verticalmente */
-    min-height: 100vh;      /* Garante que o corpo ocupe 100% da altura da tela */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* --- Container Principal do Formulário --- */
 .form-container {
-    background-color: #f0f0f0; /* Um cinza bem claro para o container */
+    background-color: #f0f0f0;
     padding: 40px;
-    border-radius: 20px; /* Bordas arredondadas */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidade */
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 500px; /* Largura máxima para não ficar muito grande em telas maiores */
-    text-align: center; /* Centraliza o texto (título e botão) */
+    max-width: 500px;
+    text-align: center;
 }
 
 /* --- Título (CADASTRO DO PET) --- */
 .form-container h1 {
-    color: #333; /* Cor escura para o texto do título */
+    color: #333;
     margin-top: 0;
     margin-bottom: 30px;
-    font-size: 2em; /* Tamanho da fonte maior */
+    font-size: 2em;
 }
 
 /* --- Estilo dos Campos do Formulário --- */
-/* O Django {{ form.as_p }} cria cada campo dentro de uma tag <p> */
 .form-container form p {
-    margin-bottom: 20px; /* Espaçamento entre os campos */
-    text-align: left; /* Alinha o texto dos labels à esquerda */
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .form-container label {
-    display: block; /* Faz o label ocupar uma linha inteira */
-    font-weight: 600; /* Deixa o texto do label em negrito */
-    margin-bottom: 8px; /* Espaço entre o label e o campo de input */
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
     color: #555;
 }
 
-/* Estilo para todos os campos de texto, email, número, etc. */
 .form-container input[type="text"],
 .form-container input[type="date"],
-.form-container input[type="number"] {
-    width: 100%; /* Ocupa toda a largura do container */
+.form-container input[type="number"],
+.form-container select,
+.form-container textarea {
+    width: 100%;
     padding: 12px 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1rem;
-    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* --- Botão de Salvar/Cadastrar --- */
 .form-container button {
-    background-color: #555; /* Cor de fundo escura para o botão */
-    color: white; /* Cor do texto do botão */
+    background-color: #555;
+    color: white;
     padding: 12px 30px;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer; /* Muda o cursor para uma "mãozinha" */
-    transition: background-color 0.3s ease; /* Efeito suave na troca de cor */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     margin-top: 15px;
 }
 
 .form-container button:hover {
-    background-color: #333; /* Cor do botão ao passar o mouse */
+    background-color: #333;
 }
 
 /* --- Link de "Voltar" --- */
@@ -92,37 +89,31 @@ body {
     text-decoration: underline;
 }
 
-/* --- PÁGINA INICIAL / BOAS-VINDAS --- */
 
+/* --- PÁGINA INICIAL / BOAS-VINDAS (CORRIGIDO) --- */
 .welcome-container {
-    /* Usa a tela inteira */
     width: 100vw;
     height: 100vh;
-    padding: 2rem;
     box-sizing: border-box;
-
-    /* Cor de fundo */
     background-color: #34D399;
-    color: white; /* Cor do texto padrão */
-
-    /* Organiza o conteúdo em coluna e centraliza */
+    color: white;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly; /* CORRIGIDO: Garante que o botão apareça */
     align-items: center;
     text-align: center;
-    overflow: hidden; /* Evita barras de rolagem desnecessárias */
+    overflow: hidden;
 }
 
 .welcome-text {
     font-weight: bold;
-    line-height: 1.1; /* Altura da linha mais compacta */
-    text-transform: uppercase; /* Deixa todo o texto em maiúsculas */
-    margin-bottom: 50px; /* Espaço entre o texto e o botão */
+    line-height: 1.1;
+    text-transform: uppercase;
+    /* A linha da margem foi removida */
 }
 
 .welcome-text .line1 {
-    font-size: clamp(3rem, 10vw, 6rem); /* Fonte responsiva */
+    font-size: clamp(3rem, 10vw, 6rem);
 }
 
 .welcome-text .line2 {
@@ -142,16 +133,16 @@ body {
 
 .welcome-text .star {
     font-size: clamp(3rem, 9vw, 5rem);
-    color: #FFD700; /* Cor amarela para a estrela */
+    color: #FFD700;
     margin-left: 1rem;
-    padding-bottom: 1rem; /* Alinha melhor com o texto */
+    padding-bottom: 1rem;
 }
 
 .start-button {
     background-color: white;
-    color: #34D399; /* Cor do texto do botão (verde) */
+    color: #34D399;
     padding: 15px 40px;
-    border-radius: 50px; /* Botão bem arredondado */
+    border-radius: 50px;
     font-size: 1.2rem;
     font-weight: bold;
     text-decoration: none;
@@ -161,24 +152,22 @@ body {
 }
 
 .start-button:hover {
-    transform: translateY(-5px); /* Efeito de "levantar" ao passar o mouse */
+    transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0,0,0,0.2);
 }
 
-/* --- PÁGINA DE LISTA DE PETS --- */
 
-/* O container principal, parecido com o do formulário */
+/* --- PÁGINA DE LISTA DE PETS --- */
 .list-container {
     background-color: #f0f0f0;
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 700px; /* Um pouco mais largo para a lista */
+    max-width: 700px;
     text-align: center;
 }
 
-/* Título da lista */
 .list-container h1 {
     color: #333;
     margin-top: 0;
@@ -186,21 +175,46 @@ body {
     font-size: 2em;
 }
 
+/* NOVO: Container para alinhar os botões principais */
+.main-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
 /* Botão verde para "Adicionar Novo Pet" */
 .add-pet-button {
     display: inline-block;
-    background-color: #10B981; /* Um verde mais escuro */
+    background-color: #10B981;
     color: white;
     padding: 12px 25px;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
-    margin-bottom: 30px;
     transition: background-color 0.3s ease;
 }
 
 .add-pet-button:hover {
     background-color: #059669;
+}
+
+/* NOVO: Estilo para o botão "Cadastrar Evento" */
+.add-event-button {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    background-color: transparent;
+    border: 2px solid #10B981;
+    color: #10B981;
+    transition: all 0.3s ease;
+}
+
+.add-event-button:hover {
+    background-color: #10B981;
+    color: white;
 }
 
 /* A área branca onde os pets são listados */
@@ -211,28 +225,24 @@ body {
     text-align: left;
 }
 
-/* Cada linha de um pet na lista */
 .pet-item {
     display: flex;
-    justify-content: space-between; /* Joga a info para a esquerda e os botões para a direita */
+    justify-content: space-between;
     align-items: center;
     padding: 20px 0;
-    border-bottom: 1px solid #eee; /* Linha separadora */
+    border-bottom: 1px solid #eee;
 }
 
-/* Remove a linha do último item para ficar mais bonito */
 .pet-list .pet-item:last-child {
     border-bottom: none;
 }
 
-/* Estilo para quando a lista está vazia */
 .pet-item-empty {
     padding: 40px 0;
     text-align: center;
     color: #888;
 }
 
-/* Informações do pet */
 .pet-info .pet-name {
     font-size: 1.2rem;
     font-weight: 600;
@@ -240,19 +250,17 @@ body {
 }
 
 .pet-info .pet-species {
-    display: block; /* Fica abaixo do nome */
+    display: block;
     font-size: 0.9rem;
     color: #777;
     margin-top: 4px;
 }
 
-/* Container para os botões de ação */
 .pet-actions {
     display: flex;
-    gap: 10px; /* Espaço entre os botões */
+    gap: 10px;
 }
 
-/* Estilo base para os botões de ação */
 .edit-btn, .delete-btn {
     color: white;
     text-decoration: none;
@@ -267,12 +275,32 @@ body {
     opacity: 0.8;
 }
 
-/* Cor específica para o botão EDITAR */
 .edit-btn {
     background-color: #3B82F6; /* Azul */
 }
 
-/* Cor específica para o botão EXCLUIR */
 .delete-btn {
     background-color: #EF4444; /* Vermelho */
+}
+
+/* --- ESTILOS PARA SELEÇÃO DE PETS --- */
+.select-pet-form .pet-radio-list label {
+    display: block;
+    background-color: white;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.select-pet-form .pet-radio-list label:hover {
+    border-color: #34D399;
+    box-shadow: 0 0 5px rgba(52, 211, 153, 0.5);
+}
+
+.select-pet-form .pet-radio-list input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.5);
 }

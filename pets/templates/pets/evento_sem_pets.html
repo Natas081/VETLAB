@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Nenhum Pet Cadastrado</title>
+</head>
+<body>
+    <main class="form-container">
+        <h1>Nenhum Pet Cadastrado</h1>
+        <p>Você precisa cadastrar um pet antes de poder adicionar eventos a ele.</p>
+        <a href="{% url 'pet_create' %}" class="add-pet-button" style="margin-top: 20px;">Cadastrar um Pet</a>
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar</a>
+    </main>
+</body>
+</html>
