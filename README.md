@@ -69,7 +69,7 @@ Com funcionalidades como organização de petshops, controle de histórico dos p
 </details>
 
 
-<h2 id="grupo">👥 Grupo</h2>
+<h2 id="grupo">Grupo 11</h2>
 <ul>
   <li>Felipe de Almeida Lemos - <i>fal@cesar.school</i></li>
   <li>Felipe Espínola Menezes - <i>fem@cesar.school</i></li>
