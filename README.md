@@ -44,6 +44,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
+ <a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
 </details>
 
 
