@@ -5,7 +5,7 @@
 Com funcionalidades como organização de petshops, controle de histórico dos pets, acompanhamento de saúde e serviços adicionais, o VETLAB é a solução ideal para quem deseja administrar seus animais de forma prática e centralizada.
 </p>
 
-<h2 id="funcionalidades">Funcionalidades ⚙️</h2>
+<h2 id="funcionalidades">Funcionalidades</h2>
 <ul>
  <li><b>Cadastro do pet</b></li>
  <li><b>Gerenciar pets</b></li>
