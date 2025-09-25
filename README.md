@@ -14,8 +14,6 @@ Com funcionalidades como organização de petshops, controle de histórico dos p
   <li><b>Dashboard:</b> Visualize informações de forma prática e rápida.</li>
 </ul>
 
-<h2 id="entregas">Entregas 📄</h2>
-
 <h2 style="text-align:center; font-size:3em; color:#FF8C00; margin-top:0;">Entrega 1</h2>
 
 <details>
