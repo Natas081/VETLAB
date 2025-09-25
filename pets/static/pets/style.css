@@ -304,3 +304,45 @@ body {
     margin-right: 15px;
     transform: scale(1.5);
 }
+/* --- PÁGINA DE CONFIRMAÇÃO DE EXCLUSÃO --- */
+
+.confirmation-text {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-top: -15px;
+    margin-bottom: 30px;
+}
+
+/* Container para os botões de Sim/Não */
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espaço entre os botões */
+    margin-top: 20px;
+}
+
+/* Deixa o botão de exclusão principal maior e mais destacado */
+.delete-btn.primary {
+    padding: 12px 30px;
+    font-size: 1rem;
+}
+
+/* Estilo para o botão "Cancelar" */
+.cancel-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    background-color: transparent;
+    border: 2px solid #888; /* Borda cinza */
+    color: #555; /* Texto cinza escuro */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+    background-color: #888;
+    color: white;
+}
