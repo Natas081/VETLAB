@@ -78,6 +78,4 @@ Com funcionalidades como organização de petshops, controle de histórico dos p
   <li>Natan Luís - <i>nlps@cesar.school</i></li>
   <li>Diego Gomes Xavier - <i>dgsx@cesar.school</i></li>
   <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
-  
-  <li>Arthur Monteiro- <i>aml@cesar.school</i></li>
 </ul>
