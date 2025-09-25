@@ -5,18 +5,6 @@
 Com funcionalidades como organização de petshops, controle de histórico dos pets, acompanhamento de saúde e serviços adicionais, o VETLAB é a solução ideal para quem deseja administrar seus animais de forma prática e centralizada.  
 </p>
 
-<h2>Índice</h2>
-<ul>
-  <li><a href="#funcionalidades">Funcionalidades</a></li>
-  <li><a href="#instalacao">Instalação</a></li>
-  <li><a href="#uso">Uso</a></li>
-  <li><a href="#contribuicao">Contribuição</a></li>
-  <li><a href="#licenca">Licença</a></li>
-  <li><a href="#tecnologias">Tecnologias</a></li>
-  <li><a href="#entregas">Entregas</a></li>
-  <li><a href="#grupo">Grupo</a></li>
-</ul>
-
 <h2 id="funcionalidades">Funcionalidades ⚙️</h2>
 <ul>
   <li><b>Cadastro de Pets:</b> Registre informações completas sobre seus animais.</li>
@@ -24,26 +12,6 @@ Com funcionalidades como organização de petshops, controle de histórico dos p
   <li><b>Histórico do Pet:</b> Acompanhe consultas, vacinas e evoluções.</li>
   <li><b>Metas Personalizadas:</b> Controle cuidados recorrentes dos pets.</li>
   <li><b>Dashboard:</b> Visualize informações de forma prática e rápida.</li>
-</ul>
-
-<h2 id="instalacao">Instalação 📥</h2>
-<p>Clone este repositório e siga as instruções de instalação de dependências.</p>
-
-<h2 id="uso">Uso 🚀</h2>
-<p>Após a instalação, inicie o servidor e acesse o sistema no navegador.</p>
-
-<h2 id="contribuicao">Contribuição 🤝</h2>
-<p>Contribuições são bem-vindas! Faça um fork do projeto, crie sua branch e abra um Pull Request.</p>
-
-<h2 id="licenca">Licença 📜</h2>
-<p>Este projeto está sob a licença MIT.</p>
-
-<h2 id="tecnologias">Tecnologias 🛠️</h2>
-<ul>
-  <li>Figma (protótipo)</li>
-  <li>Jira (gestão do projeto)</li>
-  <li>Google Docs (histórias de usuário)</li>
-  <li>HTML, CSS, JavaScript e Python (implementação)</li>
 </ul>
 
 <h2 id="entregas">Entregas 📄</h2>
