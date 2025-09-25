@@ -2,7 +2,7 @@
 
 <p>
 <b>VETLAB</b> é um sistema web projetado para facilitar o cadastro e gerenciamento de informações de pets.
-Com funcionalidades como organização de petshops, controle de histórico dos pets, acompanhamento de saúde e serviços adicionais, o VETLAB é a solução ideal para quem deseja administrar seus animais de forma prática e centralizada.
+Com funcionalidades petshop, controle de histórico dos pets, acompanhamento de saúde e serviços adicionais, o VETLAB é a solução ideal para quem deseja administrar seus animais de forma prática e centralizada.
 </p>
 
 <h2 id="funcionalidades">Funcionalidades</h2>
