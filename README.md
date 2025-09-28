@@ -51,6 +51,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
   <summary><b>Links importantes</b></summary>
 <a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
  <a href="https://vetlab.onrender.com/"><b>Site do projeto</b></a><br>
+ <a href="https://www.youtube.com/watch?v=47CY1a1SvnY"><b>Apresentação do protótipo</b></a><br>
 </details>
 
 
