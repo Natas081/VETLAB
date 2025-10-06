@@ -9,6 +9,7 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.nome
+        #adicionando método para representar o pet pelo nome
 
 
 class Evento(models.Model):
