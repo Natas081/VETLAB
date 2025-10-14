@@ -11,6 +11,9 @@ class Pet(models.Model):
         return self.nome
         #adicionando método para representar o pet pelo nome
 
+        #adicionando método para representar o eventio pelo nome
+
+
 
 class Evento(models.Model):
     TIPOS_EVENTO = [
