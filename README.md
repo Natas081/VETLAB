@@ -1,4 +1,5 @@
 <h1><b>VETLAB 🐶</b></h1>
+<!-- VETLAB sempre evoluindo 🐾 -->
 
 <p>
 <b>VETLAB</b> é um sistema web projetado para facilitar o cadastro e gerenciamento de informações de pets.
@@ -40,11 +41,18 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Telas importantes</b></summary>
+ <img width="1552" height="299" alt="image" src="https://github.com/user-attachments/assets/09a53d8a-08ea-4b1f-9c2a-8a5f3b2e1da3" />
+ <img width="1919" height="959" alt="image" src="https://github.com/user-attachments/assets/8ee346cb-e086-4d32-b424-495aebea4512" />
+ <img width="1919" height="970" alt="image" src="https://github.com/user-attachments/assets/bc1746f6-7106-441e-a845-b61f0f3090af" />
+<img width="1523" height="973" alt="image" src="https://github.com/user-attachments/assets/90fb4ae0-01d1-4a09-a1dc-36710c7c81a9" />
+
 </details>
 
 <details>
   <summary><b>Links importantes</b></summary>
- <a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
+<a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
+ <a href="https://vetlab.onrender.com/"><b>Site do projeto</b></a><br>
+ <a href="https://www.youtube.com/watch?v=47CY1a1SvnY"><b>Apresentação do protótipo</b></a><br>
 </details>
 
 
