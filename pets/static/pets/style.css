@@ -411,5 +411,15 @@ body {
 }
 
 .message.error {
-    background-color: #EF4444; /* Vermelho erro */
+    background-color: #EF4444; 
+}
+
+
+.eventos-btn {
+    background-color: #3B82F6; 
+}
+
+
+.pet-actions .edit-btn {
+    background-color: #F59E0B; 
 }
