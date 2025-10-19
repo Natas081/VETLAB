@@ -18,4 +18,6 @@ urlpatterns = [
     path('<int:pet_pk>/eventos/', views.evento_list, name='evento_list'),
     path('<int:pet_pk>/metas/', views.meta_list, name='meta_list'),
     path('metas/<int:pk>/concluir/', views.meta_concluir, name='meta_concluir'),
+    path('<int:pk>/visao-geral/', views.pet_visao_geral, name='pet_visao_geral'),
+    path('metas/<int:pk>/atualizar-progresso/', views.meta_atualizar_progresso, name='meta_atualizar_progresso'),
 ]

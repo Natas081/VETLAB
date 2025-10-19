@@ -243,3 +243,53 @@ def meta_concluir(request, pk):
         messages.success(request, 'Meta marcada como concluída! Bom trabalho!')
 
     return redirect('meta_list', pet_pk=meta.pet.pk)
+
+def pet_visao_geral(request, pk):
+    """
+    Mostra a página de visão geral de um pet específico.
+    """
+    pet = get_object_or_404(Pet, pk=pk)
+    
+    # Busca os 5 eventos mais recentes
+    eventos = pet.eventos.all().order_by('-data')[:5]
+    
+    # Busca todas as metas, ordenando pelas não concluídas primeiro
+    metas = pet.metas.all().order_by('progresso', 'data_prazo')
+    
+    # Stats para os cards (a função extra que você pediu!)
+    total_eventos = pet.eventos.count()
+    metas_concluidas = pet.metas.filter(progresso=100).count()
+    
+    context = {
+        'pet': pet,
+        'eventos': eventos,
+        'metas': metas,
+        'total_eventos': total_eventos,
+        'metas_concluidas': metas_concluidas,
+    }
+    # Cenário 3: Pet sem eventos ou metas
+    if not eventos and not metas:
+        messages.info(request, 'Esse pet ainda não possui registros de eventos ou metas.')
+
+    return render(request, 'pets/pet_visao_geral.html', context)
+
+def meta_atualizar_progresso(request, pk):
+    """
+    Atualiza o progresso de uma meta via POST.
+    """
+    meta = get_object_or_404(Meta, pk=pk)
+    
+    if request.method == 'POST':
+        progresso_str = request.POST.get('progresso')
+        try:
+            progresso = int(progresso_str)
+            if 0 <= progresso <= 100:
+                meta.progresso = progresso
+                meta.save()
+                messages.success(request, 'Progresso da meta atualizado!')
+            else:
+                messages.error(request, 'O progresso deve ser entre 0 e 100.')
+        except (ValueError, TypeError):
+            messages.error(request, 'Valor de progresso inválido.')
+
+    return redirect('pet_visao_geral', pk=meta.pet.pk)

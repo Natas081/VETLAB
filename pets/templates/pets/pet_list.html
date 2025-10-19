@@ -27,6 +27,7 @@
                     </div>
 
                     <div class="pet-actions">
+                        <a href="{% url 'pet_visao_geral' pet.pk %}" class="action-btn overview-btn">Visão Geral</a>
                         <a href="{% url 'meta_list' pet.pk %}" class="action-btn metas-btn">Metas</a>
                         <a href="{% url 'evento_list' pet.pk %}" class="action-btn eventos-btn">Eventos</a>
                         <a href="{% url 'pet_edit' pet.pk %}" class="edit-btn">Editar</a>

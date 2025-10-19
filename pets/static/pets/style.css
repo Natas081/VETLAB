@@ -465,3 +465,125 @@ body {
 .metas-btn {
     background-color: #8B5CF6; /* Roxo */
 }
+/* --- ESTILOS PARA A PÁGINA DE VISÃO GERAL --- */
+.overview-container {
+    background-color: #f0f0f0;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 900px; /* Página mais larga */
+    text-align: center;
+}
+.overview-container h1 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 2em;
+}
+
+/* Stats */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.stat-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.stat-card h3 {
+    margin: 0 0 10px 0;
+    color: #555;
+    font-size: 1rem;
+}
+.stat-card p {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #3B82F6;
+}
+
+/* Seções */
+.overview-section {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+.overview-section h2 {
+    margin-top: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.list-items .pet-item {
+    border: none;
+    padding: 15px 0;
+}
+
+/* Estilo específico para item de meta */
+.meta-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+.meta-item:last-child {
+    border-bottom: none;
+}
+.meta-desc {
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+.meta-prazo {
+    font-size: 0.9rem;
+    color: #777;
+}
+
+/* Formulário de progresso */
+.progress-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+}
+.progress-form label {
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+.progress-form input[type="range"] {
+    width: 100%;
+}
+.progress-form button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    background-color: #10B981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.view-all-link {
+    display: block;
+    text-align: right;
+    margin-top: 15px;
+    font-weight: 600;
+    color: #3B82F6;
+}
+.messages.standalone-messages {
+    text-align: center;
+    padding: 0;
+}
+/* Cor do novo botão "Visão Geral" */
+.overview-btn {
+    background-color: #111827; /* Preto/Cinza Escuro */
+    color: white;
+}

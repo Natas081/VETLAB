@@ -1,4 +1,6 @@
 from django.db import models
+from datetime import date 
+from django.core.validators import MinValueValidator, MaxValueValidator 
 
 class Pet(models.Model):
     nome = models.CharField(max_length=100)
@@ -6,6 +8,14 @@ class Pet(models.Model):
     raca = models.CharField(max_length=50, blank=True, null=True)
     data_nascimento = models.DateField()
     peso = models.FloatField()
+    def calcular_idade(self):
+        hoje = date.today()
+
+        idade = hoje.year - self.data_nascimento.year - ((hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day))
+        return f"{idade} anos"
+
+    def __str__(self):
+        return self.nome
 
     def __str__(self):
         return self.nome
@@ -38,7 +48,11 @@ class Meta(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="metas")
     descricao = models.TextField()  
     data_prazo = models.DateField() 
-    concluida = models.BooleanField(default=False) # Para marcar como concluída no futuro
+    progresso = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
+
 
     def __str__(self):
         return f"Meta para {self.pet.nome}: {self.descricao[:30]}..." # Mostra os primeiros 30 caracteres

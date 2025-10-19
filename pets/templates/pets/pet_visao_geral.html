@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Visão Geral: {{ pet.nome }}</title>
+</head>
+<body>
+    <main class="overview-container">
+        <h1>Visão Geral: {{ pet.nome }}</h1>
+
+        {% if messages %}
+            <div class="messages standalone-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Idade</h3>
+                <p>{{ pet.calcular_idade }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Peso</h3>
+                <p>{{ pet.peso }} kg</p>
+            </div>
+            <div class="stat-card">
+                <h3>Total de Eventos</h3>
+                <p>{{ total_eventos }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Metas Concluídas</h3>
+                <p>{{ metas_concluidas }}</p>
+            </div>
+        </div>
+
+        <div class="overview-section">
+            <h2>Metas em Andamento</h2>
+            <div class="list-items">
+                {% for meta in metas %}
+                    <div class="meta-item">
+                        <div class="meta-info">
+                            <p class="meta-desc">{{ meta.descricao }}</p>
+                            <span class="meta-prazo">Prazo: {{ meta.data_prazo|date:"d/m/Y" }}</span>
+                        </div>
+                        <form class="progress-form" method="post" action="{% url 'meta_atualizar_progresso' meta.pk %}">
+                            {% csrf_token %}
+                            <label for="progresso-{{ meta.pk }}">Progresso: <span id="progresso-valor-{{ meta.pk }}">{{ meta.progresso }}</span>%</label>
+                            <input type="range" id="progresso-{{ meta.pk }}" name="progresso" min="0" max="100" value="{{ meta.progresso }}"
+                                oninput="document.getElementById('progresso-valor-{{ meta.pk }}').textContent = this.value">
+                            <button type="submit">Atualizar</button>
+                        </form>
+                    </div>
+                {% empty %}
+                    <p>Nenhuma meta cadastrada para este pet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="overview-section">
+            <h2>Últimos Eventos Registrados</h2>
+            <div class="list-items">
+                {% for evento in eventos %}
+                    <div class="pet-item {% if evento.concluido %}concluido{% endif %}">
+                        <div class="pet-info">
+                            <span class="pet-name">{{ evento.get_tipo_display }} {% if evento.concluido %}<span class="status-badge">(Concluído)</span>{% endif %}</span>
+                            <span class="pet-species">{{ evento.data|date:"d/m/Y" }}</span>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Nenhum evento registrado para este pet.</p>
+                {% endfor %}
+                 <a href="{% url 'evento_list' pet.pk %}" class="view-all-link">Ver todos os eventos...</a>
+            </div>
+        </div>
+
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
+    </main>
+</body>
+</html>
