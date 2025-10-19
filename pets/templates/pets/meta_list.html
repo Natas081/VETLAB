@@ -36,15 +36,15 @@
                     <div class="pet-info">
                         <span class="pet-name">
                             {{ meta.descricao }}
-                            {% if meta.concluida %}
+                            {% if meta.progresso == 100 %}
                                 <span class="status-badge">(Concluída)</span>
                             {% endif %}
                         </span>
                         <span class="pet-species">Prazo: {{ meta.data_prazo|date:"d/m/Y" }}</span>
                     </div>
                     <div class="pet-actions">
-                        {% if not meta.concluida %}
-                            <a href="{% url 'meta_concluir' meta.pk %}" class="action-btn concluir-btn">Concluir</a>
+                        {% if meta.progresso < 100 %}
+                            <a href="{% url 'meta_concluir' meta.pk %}" class="action-btn concluir-btn">Concluir (100%)</a>
                         {% endif %}
                     </div>
                 </div>

@@ -223,7 +223,8 @@ def meta_list(request, pet_pk):
         
         return redirect('meta_list', pet_pk=pet.pk)
 
-    metas = Meta.objects.filter(pet=pet).order_by('concluida', 'data_prazo')
+# LINHA NOVA E CORRETA
+    metas = Meta.objects.filter(pet=pet).order_by('progresso', 'data_prazo')
     context = {
         'pet': pet,
         'metas': metas
