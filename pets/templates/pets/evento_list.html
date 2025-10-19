@@ -11,23 +11,40 @@
 
     <main class="list-container">
         <h1>Eventos de {{ pet.nome }}</h1>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         <a href="{% url 'evento_adicionar' pet.pk %}" class="add-pet-button">Adicionar Novo Evento</a>
         
         <div class="pet-list">
             {% for evento in eventos %}
-                <div class="pet-item">
+                <div class="pet-item {% if evento.concluido %}concluido{% endif %}">
                     <div class="pet-info">
-                        <span class="pet-name">{{ evento.get_tipo_display }}</span>
+                        <span class="pet-name">
+                            {{ evento.get_tipo_display }}
+                            {% if evento.concluido %}
+                                <span class="status-badge">(Concluído)</span>
+                            {% endif %}
+                        </span>
                         <span class="pet-species">{{ evento.data|date:"d/m/Y" }} - {{ evento.observacoes|default:"Sem observações" }}</span>
                     </div>
                     <div class="pet-actions">
+                        {% if not evento.concluido %}
+                            <a href="{% url 'evento_concluir' evento.pk %}" class="action-btn concluir-btn">Concluir</a>
+                        {% endif %}
                         <a href="{% url 'evento_edit' evento.pk %}" class="edit-btn">Editar</a>
                         <a href="{% url 'evento_delete' evento.pk %}" class="delete-btn">Excluir</a>
                     </div>
                 </div>
             {% empty %}
                 <div class="pet-item-empty">
-                    <p>Nenhum evento cadastrado para este pet.</p>
+                    <p>Não há eventos cadastrados.</p>
                 </div>
             {% endfor %}
         </div>

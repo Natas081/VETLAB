@@ -27,5 +27,7 @@ class Evento(models.Model):
     data = models.DateField()
     observacoes = models.TextField(blank=True, null=True)
 
+    concluido = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.tipo} - {self.pet.nome}"

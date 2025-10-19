@@ -1,15 +1,13 @@
-# Em pets/views.py
+
 
 from django.shortcuts import render, get_object_or_404, redirect
-# IMPORTAMOS TUDO QUE VAMOS PRECISAR
+from django.contrib import messages
 from .models import Pet, Evento
 
 
-# --- VIEWS DA PÁGINA INICIAL E DE PETS (NÃO MUDAM) ---
+
 def home_view(request):
-    """
-    Renderiza a página inicial de boas-vindas.
-    """
+
     return render(request, 'pets/home.html')
 
 def pet_list(request):
@@ -18,14 +16,14 @@ def pet_list(request):
 
 def pet_create(request):
     if request.method == 'POST':
-        # Pegamos os dados manualmente do objeto request.POST
+
         nome = request.POST.get('nome')
         especie = request.POST.get('especie')
         raca = request.POST.get('raca')
         data_nascimento = request.POST.get('data_nascimento')
         peso = request.POST.get('peso')
 
-        # Validação manual simples
+
         if not nome or not especie or not data_nascimento or not peso:
             error_message = "Os campos Nome, Espécie, Data de Nascimento e Peso são obrigatórios."
             return render(request, 'pets/pet_form.html', {'error_message': error_message})
@@ -48,21 +46,21 @@ def pet_create(request):
         )
         return redirect('pet_list')
     
-    # Se for um GET, apenas mostra o formulário vazio
+
     return render(request, 'pets/pet_form.html')
 
 def pet_edit(request, pk):
     pet = get_object_or_404(Pet, pk=pk)
 
     if request.method == 'POST':
-        # Pegamos os dados novos do formulário
+
         nome = request.POST.get('nome')
         especie = request.POST.get('especie')
         raca = request.POST.get('raca')
         data_nascimento = request.POST.get('data_nascimento')
         peso = request.POST.get('peso')
 
-        # Validação manual
+
         if not nome or not especie or not data_nascimento or not peso:
             error_message = "Todos os campos obrigatórios devem ser preenchidos."
             return render(request, 'pets/pet_form.html', {'error_message': error_message, 'pet': pet})
@@ -76,7 +74,7 @@ def pet_edit(request, pk):
             return render(request, 'pets/pet_form.html', {'error_message': error_message, 'pet': pet})
 
 
-        # Atualizamos o objeto pet com os dados novos
+
         pet.nome = nome
         pet.especie = especie
         pet.raca = raca
@@ -86,7 +84,6 @@ def pet_edit(request, pk):
 
         return redirect('pet_list')
 
-    # Se for um GET, passa o objeto 'pet' para o template preencher os campos
     return render(request, 'pets/pet_form.html', {'pet': pet})
 
 def pet_delete(request, pk):
@@ -96,14 +93,6 @@ def pet_delete(request, pk):
         return redirect('pet_list')
     return render(request, 'pets/pet_confirm_delete.html', {'pet': pet})
 
-
-# --- ADICIONE TODAS AS NOVAS VIEWS PARA O FLUXO DE EVENTOS AQUI ---
-
-# Em pets/views.py
-
-# ... (outras views) ...
-
-# --- SUBSTITUA A VIEW evento_selecionar_pet POR ESTA ---
 def evento_selecionar_pet(request):
     if not Pet.objects.exists():
         return render(request, 'pets/evento_sem_pets.html')
@@ -195,3 +184,21 @@ def evento_delete(request, pk):
         evento.delete()
         return redirect('evento_list', pet_pk=pet.pk)
     return render(request, 'pets/evento_confirm_delete.html', {'evento': evento, 'pet': pet})
+
+def evento_concluir(request, pk):
+    """
+    Marca um evento específico como concluído.
+    """
+    evento = get_object_or_404(Evento, pk=pk)
+
+
+    if evento.concluido:
+        messages.warning(request, 'Esse evento já foi concluído.')
+    else:
+
+        evento.concluido = True
+        evento.save()
+        messages.success(request, 'Evento concluído!')
+
+
+    return redirect('evento_list', pet_pk=evento.pet.pk)

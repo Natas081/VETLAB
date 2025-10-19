@@ -346,3 +346,70 @@ body {
     background-color: #888;
     color: white;
 }
+/* --- ESTILOS PARA NOVAS FUNCIONALIDADES DE EVENTOS --- */
+
+/* Estilo para a linha inteira de um evento concluído */
+.pet-item.concluido .pet-info {
+    text-decoration: line-through; /* Risca o texto */
+    color: #999;
+}
+
+.pet-item.concluido .pet-info .pet-name,
+.pet-item.concluido .pet-info .pet-species {
+    color: #999; /* Deixa o texto do nome e da espécie cinza */
+}
+
+/* Estilo para o marcador "(Concluído)" */
+.status-badge {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #10B981; /* Verde */
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+/* Estilo base para os novos botões de ação */
+.action-btn {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Cor específica para o botão CONCLUIR */
+.concluir-btn {
+    background-color: #22C55E; /* Verde um pouco mais vivo */
+}
+
+.messages {
+    padding: 0;
+    margin: -10px 0 20px 0;
+    list-style: none;
+}
+
+.message {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: white;
+}
+
+.message.success {
+    background-color: #22C55E; /* Verde sucesso */
+}
+
+.message.warning {
+    background-color: #F59E0B; /* Laranja aviso */
+}
+
+.message.error {
+    background-color: #EF4444; /* Vermelho erro */
+}
