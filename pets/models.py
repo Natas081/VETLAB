@@ -38,7 +38,7 @@ class Meta(models.Model):
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="metas")
     descricao = models.TextField()  
     data_prazo = models.DateField() 
-    concluida = models.BooleanField(default=False) 
+    concluida = models.BooleanField(default=False) # Para marcar como concluída no futuro
 
     def __str__(self):
-        return f"Meta para {self.pet.nome}: {self.descricao[:30]}..."
+        return f"Meta para {self.pet.nome}: {self.descricao[:30]}..." # Mostra os primeiros 30 caracteres
