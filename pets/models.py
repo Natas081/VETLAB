@@ -31,3 +31,14 @@ class Evento(models.Model):
 
     def __str__(self):
         return f"{self.tipo} - {self.pet.nome}"
+    
+    # ... (classe Pet e Evento continuam aqui em cima) ...
+
+class Meta(models.Model):
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name="metas")
+    descricao = models.TextField()  
+    data_prazo = models.DateField() 
+    concluida = models.BooleanField(default=False) 
+
+    def __str__(self):
+        return f"Meta para {self.pet.nome}: {self.descricao[:30]}..."

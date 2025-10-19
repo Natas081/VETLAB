@@ -423,3 +423,45 @@ body {
 .pet-actions .edit-btn {
     background-color: #F59E0B; 
 }
+
+/* --- ESTILOS PARA O QUADRO DE METAS --- */
+
+/* Estilo para o formulário de adicionar meta */
+.meta-form {
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+.meta-form h2 {
+    margin-top: 0;
+    color: #333;
+}
+.meta-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+.meta-form .form-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.meta-form .form-row label {
+    font-weight: 600;
+    color: #555;
+}
+.meta-form .form-row button {
+    margin-left: auto; /* Empurra o botão para a direita */
+}
+
+/* Cor específica para o botão METAS na lista de pets */
+.metas-btn {
+    background-color: #8B5CF6; /* Roxo */
+}

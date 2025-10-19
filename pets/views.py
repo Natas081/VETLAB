@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Pet, Evento
+from .models import Pet, Evento, Meta
 
 
 
@@ -202,3 +202,44 @@ def evento_concluir(request, pk):
 
 
     return redirect('evento_list', pet_pk=evento.pet.pk)
+
+def meta_list(request, pet_pk):
+    """
+    Mostra o quadro de metas de um pet e lida com a adição de novas metas.
+    """
+    pet = get_object_or_404(Pet, pk=pet_pk)
+
+
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao')
+        data_prazo = request.POST.get('data_prazo')
+
+
+        if not descricao or not data_prazo:
+            messages.error(request, 'Preencha a descrição e a data para adicionar a meta.')
+        else:
+            Meta.objects.create(pet=pet, descricao=descricao, data_prazo=data_prazo)
+            messages.success(request, 'Meta adicionada!')
+        
+        return redirect('meta_list', pet_pk=pet.pk)
+
+    metas = Meta.objects.filter(pet=pet).order_by('concluida', 'data_prazo')
+    context = {
+        'pet': pet,
+        'metas': metas
+    }
+    return render(request, 'pets/meta_list.html', context)
+
+def meta_concluir(request, pk):
+    """
+    Marca uma meta específica como concluída.
+    """
+    meta = get_object_or_404(Meta, pk=pk)
+    if meta.concluida:
+        messages.warning(request, 'Essa meta já foi concluída.')
+    else:
+        meta.concluida = True
+        meta.save()
+        messages.success(request, 'Meta marcada como concluída! Bom trabalho!')
+
+    return redirect('meta_list', pet_pk=meta.pet.pk)

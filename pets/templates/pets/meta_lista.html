@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Metas para {{ pet.nome }}</title>
+</head>
+<body>
+
+    <main class="list-container">
+        <h1>Quadro de Metas de {{ pet.nome }}</h1>
+
+        <form class="meta-form" method="post">
+            {% csrf_token %}
+            <h2>Adicionar Nova Meta</h2>
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <textarea name="descricao" rows="3" placeholder="Ex: Passear no parque 3x por semana"></textarea>
+            <div class="form-row">
+                <label for="data_prazo">Prazo para concluir:</label>
+                <input type="date" name="data_prazo" id="data_prazo">
+                <button type="submit" class="add-pet-button">Adicionar</button>
+            </div>
+        </form>
+
+        <div class="pet-list">
+            {% for meta in metas %}
+                <div class="pet-item {% if meta.concluida %}concluido{% endif %}">
+                    <div class="pet-info">
+                        <span class="pet-name">
+                            {{ meta.descricao }}
+                            {% if meta.concluida %}
+                                <span class="status-badge">(Concluída)</span>
+                            {% endif %}
+                        </span>
+                        <span class="pet-species">Prazo: {{ meta.data_prazo|date:"d/m/Y" }}</span>
+                    </div>
+                    <div class="pet-actions">
+                        {% if not meta.concluida %}
+                            <a href="{% url 'meta_concluir' meta.pk %}" class="action-btn concluir-btn">Concluir</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Nenhuma meta cadastrada ainda. Adicione uma acima!</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
+    </main>
+
+</body>
+</html>
