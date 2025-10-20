@@ -10,6 +10,10 @@
 <body>
 
     <main class="list-container">
+        <div class="user-info-header">
+    <span>Bem-vindo, {{ user.username }}!</span>
+    <a href="{% url 'logout' %}" class="logout-button">Sair</a>
+    </div>
 
         <h1>LISTA DE PETS</h1>
 
