@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Login - VetLab</title>
+</head>
+<body>
+    <main class="form-container">
+        <h1>LOGIN</h1>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <p><label for="username">Nome de Usuário:</label><input type="text" name="username" id="username" required></p>
+            <p><label for="password">Senha:</label><input type="password" name="password" id="password" required></p>
+            <button type="submit">Entrar</button>
+        </form>
+        <a class="back-link" href="{% url 'register' %}">Não tem uma conta? Cadastre-se</a>
+    </main>
+</body>
+</html>

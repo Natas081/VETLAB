@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Cadastro - VetLab</title>
+</head>
+<body>
+    <main class="form-container">
+        <h1>CRIE SUA CONTA</h1>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <p><label for="username">Nome de Usuário:</label><input type="text" name="username" id="username" required></p>
+            <p><label for="password">Senha:</label><input type="password" name="password" id="password" required></p>
+            <p><label for="password2">Confirme a Senha:</label><input type="password" name="password2" id="password2" required></p>
+            <button type="submit">Cadastrar</button>
+        </form>
+        <a class="back-link" href="{% url 'login' %}">Já tem uma conta? Faça login</a>
+    </main>
+</body>
+</html>

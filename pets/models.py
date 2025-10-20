@@ -1,8 +1,10 @@
 from django.db import models
 from datetime import date 
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator 
 
 class Pet(models.Model):
+    tutor = models.ForeignKey(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
     especie = models.CharField(max_length=50)
     raca = models.CharField(max_length=50, blank=True, null=True)
