@@ -60,6 +60,8 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Telas importantes</b></summary>
+ <img width="1605" height="347" alt="image" src="https://github.com/user-attachments/assets/4962a2de-33ae-410f-8d8b-47fa70757fe7" />
+
 </details>
 
 <details>
@@ -82,7 +84,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 <ul>
   <li>Felipe de Almeida Lemos - <i>fal@cesar.school</i></li>
   <li>Felipe Espínola Menezes - <i>fem@cesar.school</i></li>
-  <li>Ranilton Araújo - <i>rasjr@cesar.school</i></li>
+  <li>Ranilton Araújo da Silva Raposo Júnior- <i>rasrj@cesar.school</i></li>
   <li>Natan Luís - <i>nlps@cesar.school</i></li>
   <li>Diego Gomes Xavier - <i>dgsx@cesar.school</i></li>
   <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
