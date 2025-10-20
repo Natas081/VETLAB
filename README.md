@@ -84,7 +84,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 <ul>
   <li>Felipe de Almeida Lemos - <i>fal@cesar.school</i></li>
   <li>Felipe Espínola Menezes - <i>fem@cesar.school</i></li>
-  <li>Ranilton Araújo da Silva - <i>rasrj@cesar.school</i></li>
+  <li>Ranilton Araújo da Silva Raposo Júnior- <i>rasrj@cesar.school</i></li>
   <li>Natan Luís - <i>nlps@cesar.school</i></li>
   <li>Diego Gomes Xavier - <i>dgsx@cesar.school</i></li>
   <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
