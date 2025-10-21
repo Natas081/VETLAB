@@ -89,3 +89,4 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
   <li>Diego Gomes da Silva Xavier - <i>dgsx@cesar.school</i></li>
   <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
 </ul>
+echo "Deploy automático funcionando!" 
