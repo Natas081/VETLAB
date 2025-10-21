@@ -2,7 +2,7 @@ name: CI/CD VETLAB
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main ]   # dispara o deploy quando fizer push na branch main
   pull_request:
     branches: [ main ]
 
@@ -11,19 +11,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Clonar repositório
+      - name: 📥 Clonar repositório
         uses: actions/checkout@v3
 
-      - name: Configurar Python
+      - name: 🐍 Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.11'  # ou a versão que você usa no seu projeto
 
-      - name: Instalar dependências
+      - name: 📦 Instalar dependências
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Rodar testes
+      - name: 🧪 Rodar testes
         run: |
           python manage.py test
+
+      - name: 🚀 Deploy automático no Render
+        if: success()   # só roda se os testes passarem
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
