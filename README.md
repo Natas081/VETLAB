@@ -81,12 +81,13 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 </details>
 
 
+
 <h2 id="grupo">Grupo 11</h2>
 <ul>
-  <li>Diego Gomes da Silva Xavier - <i>dgsx@cesar.school</i></li>
-  <li>Felipe de Almeida Lemos - <i>fal@cesar.school</i></li>
-  <li>Felipe Espínola Menezes - <i>fem@cesar.school</i></li>
-  <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
-  <li>Natan Luís Pereira dos Santos- <i>nlps@cesar.school</i></li>
-  <li>Ranilton Araújo da Silva Raposo Júnior- <i>rasrj@cesar.school</i></li>
+    <li>Diego Gomes da Silva Xavier - dgsx@cesar.school</li>
+    <li>Felipe de Almeida Lemos - fal@cesar.school</li>
+    <li>Felipe Espínola Menezes - fem@cesar.school</li>
+    <li>João Falcão Ferraz Neto - jffn@cesar.school</li>
+    <li>Natan Luís Pereira dos Santos - nlps@cesar.school</li>
+    <li>Ranilton Araújo da Silva Raposo Júnior - rasrj@cesar.school</li>
 </ul>
