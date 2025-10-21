@@ -88,4 +88,4 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
   <li>Natan Luís - <i>nlps@cesar.school</i></li>
   <li>Diego Gomes Xavier - <i>dgsx@cesar.school</i></li>
   <li>João Falcão Ferraz Neto - <i>jffn@cesar.school</i></li>
-</ul>
+</ul>qualquer coisa
