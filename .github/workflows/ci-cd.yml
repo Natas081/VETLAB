@@ -1,0 +1,46 @@
+# Nome do nosso fluxo de trabalho, que aparecerá no GitHub
+name: CI/CD VETLAB
+
+# Define quando este fluxo de trabalho deve ser acionado
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    # O tipo de máquina que o robô usará
+    runs-on: ubuntu-latest
+
+    # Os passos que serão executados em sequência
+    steps:
+      # 1. Baixa o seu código para a máquina do robô
+      - name: Clonar repositório
+        uses: actions/checkout@v3
+
+      # 2. Configura o ambiente Python
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      # 3. Instala todas as dependências do seu projeto
+      - name: Instalar dependências
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Roda os testes do Django
+      - name: Rodar testes
+        # Aqui nós fornecemos a chave secreta que o robô precisa para rodar os testes
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY_FOR_TESTS }}
+        run: |
+          python manage.py test
+
+      # 5. Passo de Deploy: só executa se o 'push' for na branch 'main' e os testes passarem
+      - name: 🚀 Deploy automático no Render
+        if: github.ref == 'refs/heads/main' && success()
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
