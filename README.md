@@ -61,6 +61,8 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 <details>
   <summary><b>Telas importantes</b></summary>
  <img width="1605" height="347" alt="image" src="https://github.com/user-attachments/assets/4962a2de-33ae-410f-8d8b-47fa70757fe7" />
+ <img width="1598" height="471" alt="image" src="https://github.com/user-attachments/assets/e01906f2-0036-45c2-be9e-b63074f38687" />
+
 
 </details>
 
