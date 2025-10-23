@@ -30,9 +30,13 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
+ 
   <a href="https://www.figma.com/design/Z7vgjyxh6KX3w8wGwW9OBX/Untitled?node-id=0-1&m=dev&t=w8JcMUNf87TNghrp-1"><b>Figma</b></a><br>
+ 
   <a href="https://docs.google.com/document/d/1iX8sOVrvuNe5e-3l2RcnAq2qmmCpz37GCDBJvqEitz4/edit?usp=sharing"><b>Histórias</b></a><br>
+  
   <a href="https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog"><b>Jira</b></a><br>
+  
   <a href="https://www.youtube.com/watch?v=ZgMttZb-H08"><b>Apresentação do protótipo</b></a>
 </details>
 
@@ -50,8 +54,11 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
+ 
   <a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
+  
   <a href="https://vetlab.onrender.com/"><b>Site do projeto</b></a><br>
+  
   <a href="https://www.youtube.com/watch?v=47CY1a1SvnY"><b>Apresentação do protótipo</b></a><br>
 </details>
 
@@ -68,6 +75,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
+ 
   <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
  
   <a href="https://youtu.be/_1yMxFsLk2A?si=i1EOZnxjr9HdGm5W"><b>Screenscats dos testes</b>
