@@ -3,3 +3,4 @@ from .models import Pet, Evento
 
 admin.site.register(Pet)
 admin.site.register(Evento)
+
