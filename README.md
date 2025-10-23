@@ -71,7 +71,6 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
  <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
  
   <a href="https://youtu.be/_1yMxFsLk2A?si=i1EOZnxjr9HdGm5W"><b>Screenscats dos testes</b>
- 
   <a href="https://youtu.be/JbytNrsByPs"><b>Novas histórias implementadas</b>
 </details>
 
