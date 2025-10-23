@@ -1,4 +1,4 @@
-<h1><b>VETLAB. 🐶</b></h1>
+<h1><b>VETLAB 🐶</b></h1>
 <!-- VETLAB sempre evoluindo 🐾 -->
 
 <p>
