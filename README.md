@@ -100,7 +100,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <h2 id="grupo">Grupo 11</h2>
 <ul>
-    <li>Diego Gomes da Silva Xavier – <a href="mailto:dgsx@cesar.school"> dgsx@cesar.school</a></li>
+    <li>Diego Gomes da Silva Xavier - <a href="mailto:dgsx@cesar.school"> dgsx@cesar.school</a></li>
     <li>Felipe de Almeida Lemos - <a href="mailto:fal@cesar.school"> fal@cesar.school</a></li>
     <li>Felipe Espínola Menezes - <a href="mailto:fem@cesar.school"> fem@cesar.school</a></li>
     <li>João Falcão Ferraz Neto - <a href="mailto:jffn@cesar.school"> jffn@cesar.school</a></li>
