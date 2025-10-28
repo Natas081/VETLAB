@@ -96,7 +96,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
   <summary><b>Links importantes</b></summary>
 </details>
 
-
+<!-- Nomes dos membros da equipe 🐾 -->
 
 <h2 id="grupo">Grupo 11</h2>
 <ul>
