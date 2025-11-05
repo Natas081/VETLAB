@@ -1,4 +1,5 @@
 <h1><b>VETLAB 🐶</b></h1>
+
 <!-- VETLAB sempre evoluindo 🐾 -->
 
 <p>
@@ -30,10 +31,14 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
- <a href="https://www.figma.com/design/Z7vgjyxh6KX3w8wGwW9OBX/Untitled?node-id=0-1&m=dev&t=w8JcMUNf87TNghrp-1"><b>Figma</b></a><br>
-  <a href="https://docs.google.com/document/d/1iX8sOVrvuNe5e-3l2RcnAq2qmmCpz37GCDBJvqEitz4/edit?usp=sharing"><b>Histórias</b></a><br>
-  <a href="https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog"><b>Jira</b></a><br>
-  <a href="https://www.youtube.com/watch?v=ZgMttZb-H08"><b>Apresentação do protótipo</b></a>
+ 
+  <a href="https://www.figma.com/design/Z7vgjyxh6KX3w8wGwW9OBX/Untitled?node-id=0-1&m=dev&t=w8JcMUNf87TNghrp-1"><b>Figma</b></a><br>
+ 
+<a href="https://docs.google.com/document/d/1iX8sOVrvuNe5e-3l2RcnAq2qmmCpz37GCDBJvqEitz4/edit?usp=sharing"><b>Histórias</b></a><br>
+  
+<a href="https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog"><b>Jira</b></a><br>
+  
+<a href="https://www.youtube.com/watch?v=ZgMttZb-H08"><b>Apresentação do protótipo</b></a>
 </details>
 
 
@@ -50,9 +55,12 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
-<a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
- <a href="https://vetlab.onrender.com/"><b>Site do projeto</b></a><br>
- <a href="https://www.youtube.com/watch?v=47CY1a1SvnY"><b>Apresentação do protótipo</b></a><br>
+ 
+  <a href="https://docs.google.com/document/d/1roIO0RFCSPtVHBUJiI1R2dWMMAC0hlwSZnggkois6N4/edit?tab=t.0"><b>Relatório programação em par</b></a><br>
+  
+  <a href="https://vetlab.onrender.com/"><b>Site do projeto</b></a><br>
+  
+  <a href="https://www.youtube.com/watch?v=47CY1a1SvnY"><b>Apresentação do protótipo</b></a><br>
 </details>
 
 
@@ -68,7 +76,14 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
- <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
+ 
+  <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
+ 
+  <a href="https://youtu.be/_1yMxFsLk2A?si=i1EOZnxjr9HdGm5W"><b>Screencast dos testes</b>
+  
+  <a href="https://youtu.be/JbytNrsByPs"><b>Novas histórias implementadas</b>
+
+  <a href="https://youtu.be/zW2wJP_l6GA"><b>CI/CD</b>
 </details>
 
 
@@ -86,10 +101,10 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <h2 id="grupo">Grupo 11</h2>
 <ul>
-    <li>Diego Gomes da Silva Xavier - dgsx@cesar.school</li>
-    <li>Felipe de Almeida Lemos - fal@cesar.school</li>
-    <li>Felipe Espínola Menezes - fem@cesar.school</li>
-    <li>João Falcão Ferraz Neto - jffn@cesar.school</li>
-    <li>Natan Luís Pereira dos Santos - nlps@cesar.school</li>
-    <li>Ranilton Araújo da Silva Raposo Júnior - rasrj@cesar.school</li>
+    <li>Diego Gomes da Silva Xavier - <a href="mailto:dgsx@cesar.school"> dgsx@cesar.school</a></li>
+    <li>Felipe de Almeida Lemos - <a href="mailto:fal@cesar.school"> fal@cesar.school</a></li>
+    <li>Felipe Espínola Menezes - <a href="mailto:fem@cesar.school"> fem@cesar.school</a></li>
+    <li>João Falcão Ferraz Neto - <a href="mailto:jffn@cesar.school"> jffn@cesar.school</a></li>
+    <li>Natan Luís Pereira dos Santos - <a href="mailto:nlps@cesar.school">nlps@cesar.school</a></li>
+    <li>Ranilton Araújo da Silva Raposo Júnior - <a href="mailto:rasrj@cesar.school">rasrj@cesar.school</a></li>
 </ul>
