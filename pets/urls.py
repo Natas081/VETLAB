@@ -33,7 +33,6 @@ urlpatterns = [
     path('metas/<int:pk>/atualizar-progresso/', views.meta_atualizar_progresso, name='meta_atualizar_progresso'),
 
     # --- ROTAS DO PET SHOP (ADICIONADAS) ---
-    path('admin/popular-loja-agora/', views.popular_loja_view, name='popular_loja_view'),
     path('shop/', views.shop_list_view, name='shop_list'),
     path('cart/', views.cart_view, name='cart_view'),
     path('cart/add/<int:produto_pk>/', views.add_to_cart_view, name='add_to_cart'),

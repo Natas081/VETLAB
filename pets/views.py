@@ -448,34 +448,3 @@ def purchase_success_view(request):
     return render(request, 'pets/petshop3.html')
 
 # ... (no final do seu pets/views.py, depois de purchase_success_view) ...
-
-from django.http import HttpResponse
-from django.core.management import call_command
-from io import StringIO
-
-@login_required
-def popular_loja_view(request):
-    """
-    Uma view secreta para rodar o comando 'popular_loja' no servidor.
-    Só funciona se o usuário for um Superusuário.
-    """
-    if not request.user.is_superuser:
-        return HttpResponse("Acesso negado. Você precisa ser um admin.", status=403)
-    
-    # Prepara para capturar a saída do comando
-    out = StringIO()
-    
-    try:
-        # Chama o comando 'popular_loja'
-        call_command('popular_loja', stdout=out)
-        
-        # Pega a saída do comando
-        resultado = out.getvalue()
-        
-        messages.success(request, f"Comando executado!<br><pre>{resultado}</pre>")
-    
-    except Exception as e:
-        messages.error(request, f"Ocorreu um erro ao rodar o comando: {e}")
-    
-    # Redireciona de volta para a loja para ver o resultado
-    return redirect('shop_list')
