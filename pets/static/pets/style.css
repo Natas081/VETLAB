@@ -587,3 +587,106 @@ body {
     background-color: #111827; /* Preto/Cinza Escuro */
     color: white;
 }
+/* ==========================
+   ESTILOS DO PET SHOP
+   ========================== */
+
+/* Remove sublinhado dos links de botão */
+.action-btn, .add-pet-button, .add-event-button, .delete-btn, .edit-btn, .overview-btn, .metas-btn, .eventos-btn, .logout-button {
+    text-decoration: none;
+}
+
+/* Container de item da loja */
+.shop-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.shop-item-details {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-image-emoji {
+    font-size: 4rem; /* Tamanho grande para o emoji */
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 10px;
+    line-height: 1; /* Alinha o emoji verticalmente */
+}
+
+.product-info {
+    text-align: left;
+}
+
+.product-info .pet-name { /* Reutilizando a classe .pet-name */
+    font-size: 1.4rem;
+    margin: 0;
+}
+.product-info .pet-species { /* Reutilizando a classe .pet-species */
+    font-size: 1.1rem;
+    color: #007bff;
+    font-weight: bold;
+    margin: 0;
+}
+.product-info p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 5px 0 0 0;
+}
+.product-info small {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.shop-item .pet-actions { /* Reutilizando .pet-actions */
+    min-width: 180px; /* Garante que o botão não quebre */
+    text-align: right;
+}
+
+/* Botão de Indisponível */
+.disabled-btn {
+    background-color: #aaa;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: not-allowed;
+}
+
+/* Total do Carrinho */
+.cart-total {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+    text-align: right;
+}
+
+.cart-total h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.cart-total .add-pet-button {
+    /* Faz o botão de finalizar compra ser maior */
+    font-size: 1.2rem;
+    padding: 15px 25px;
+}
+
+/* Mensagens standalone (para pet_list, shop_list, etc.) */
+.messages.standalone-messages {
+    margin-bottom: 20px;
+    padding: 0;
+    border: none;
+}

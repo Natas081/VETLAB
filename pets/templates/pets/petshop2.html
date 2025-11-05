@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Meu Carrinho</title>
+</head>
+<body>
+    <main class="list-container">
+
+        <div class="user-info-header">
+            <span>Bem-vindo, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="logout-button">Sair</a>
+        </div>
+
+        <h1>Meu Carrinho</h1>
+        
+        {% if messages %}
+            <div class="messages standalone-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="pet-list">
+            {% for item in itens_carrinho %}
+                <div class="shop-item"> <div class="shop-item-details">
+                        <div class="product-image-emoji">
+                             {{ item.produto.emoji|default:"📦" }}
+                        </div>
+                        <div class="product-info">
+                            <h2 class="pet-name">{{ item.produto.nome }}</h2>
+                            <h3 class="pet-species">
+                                Quantidade: {{ item.quantidade }}
+                            </h3>
+                            <p>
+                                Preço Un.: R$ {{ item.produto.preco }} | 
+                                <strong>Subtotal: R$ {{ item.subtotal }}</strong>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="pet-actions">
+                        <a href="{% url 'remove_from_cart' item.produto.pk %}" class="delete-btn">Remover</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Seu carrinho está vazio.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        {% if itens_carrinho %}
+            <div class="cart-total">
+                <h2>Total: R$ {{ total_compra }}</h2>
+                <a href="{% url 'checkout' %}" class="add-pet-button">Finalizar Compra</a>
+            </div>
+        {% endif %}
+
+        <a class="back-link" href="{% url 'shop_list' %}">Continuar Comprando</a>
+        
+    </main>
+</body>
+</html>

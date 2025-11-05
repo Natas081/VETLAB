@@ -57,4 +57,18 @@ class Meta(models.Model):
 
 
     def __str__(self):
-        return f"Meta para {self.pet.nome}: {self.descricao[:30]}..." # Mostra os primeiros 30 caracteres
+        return f"Meta para {self.pet.nome}: {self.descricao[:30]}..." 
+    
+
+class Produto(models.Model):
+    nome = models.CharField(max_length=100)
+    emoji = models.CharField(max_length=10, blank=True)
+    descricao = models.TextField(blank=True)
+    preco = models.DecimalField(max_digits=10, decimal_places=2)
+    # Usamos PositiveIntegerField para garantir que o estoque não seja negativo
+    estoque = models.PositiveIntegerField(default=0)
+    # URLField é mais simples para começar
+    imagem_url = models.URLField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.nome} - R${self.preco}"

@@ -12,8 +12,12 @@
         
         <h1>{% if pet %}EDITAR DADOS DO PET{% else %}CADASTRO DO PET{% endif %}</h1>
 
-        {% if error_message %}
-            <p style="color: red; font-weight: bold; margin-bottom: 20px;">{{ error_message }}</p>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
         {% endif %}
 
         <form method="post">
@@ -22,23 +26,23 @@
             <div class="manual-form">
                 <p>
                     <label for="id_nome">Nome:</label>
-                    <input type="text" name="nome" id="id_nome" value="{{ pet.nome|default:'' }}" required>
+                    <input type="text" name="nome" id="id_nome" value="{{ values.nome|default:pet.nome|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_especie">Espécie:</label>
-                    <input type="text" name="especie" id="id_especie" value="{{ pet.especie|default:'' }}" required>
+                    <input type="text" name="especie" id="id_especie" value="{{ values.especie|default:pet.especie|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_raca">Raça (opcional):</label>
-                    <input type="text" name="raca" id="id_raca" value="{{ pet.raca|default:'' }}">
+                    <input type="text" name="raca" id="id_raca" value="{{ values.raca|default:pet.raca|default:'' }}">
                 </p>
                 <p>
                     <label for="id_data_nascimento">Data de Nascimento:</label>
-                    <input type="date" name="data_nascimento" id="id_data_nascimento" value="{{ pet.data_nascimento|date:'Y-m-d'|default:'' }}" required>
+                    <input type="date" name="data_nascimento" id="id_data_nascimento" value="{{ values.data_nascimento|default:pet.data_nascimento|date:'Y-m-d'|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_peso">Peso (kg):</label>
-                    <input type="number" name="peso" step="0.1" id="id_peso" value="{{ pet.peso|default:'' }}" required>
+                    <input type="number" name="peso" step="0.1" id="id_peso" value="{{ values.peso|default:pet.peso|default:'' }}" required>
                 </p>
             </div>
             

@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Pet Shop</title>
+</head>
+<body>
+    <main class="list-container">
+
+        <div class="user-info-header">
+            <span>Bem-vindo, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" class="logout-button">Sair</a>
+        </div>
+
+        <h1>🛒 Pet Shop</h1>
+        
+        <div class="main-actions">
+            <a href="{% url 'cart_view' %}" class="action-btn overview-btn">Ver Carrinho</a>
+            <a href="{% url 'pet_list' %}" class="action-btn">Meus Pets</a>
+        </div>
+
+        {% if messages %}
+            <div class="messages standalone-messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="pet-list"> {% for produto in produtos %}
+                <div class="shop-item"> <div class="shop-item-details">
+                        <div class="product-image-emoji">
+                            {{ produto.emoji|default:"📦" }}
+                        </div>
+                        <div class="product-info">
+                            <h2 class="pet-name">{{ produto.nome }}</h2>
+                            <h3 class="pet-species">R$ {{ produto.preco }}</h3>
+                            <p>{{ produto.descricao }}</p>
+                            <small>Estoque: {{ produto.estoque }}</small>
+                        </div>
+                    </div>
+
+                    <div class="pet-actions">
+                        {% if produto.estoque > 0 %}
+                            <a href="{% url 'add_to_cart' produto.pk %}" class="add-pet-button">Adicionar ao carrinho</a>
+                        {% else %}
+                            <span class="disabled-btn">Indisponível</span>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Nenhum produto disponível no momento.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+    </main>
+</body>
+</html>
