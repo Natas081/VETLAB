@@ -7,10 +7,12 @@ from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from django.contrib.auth.models import User
-from pets.models import Pet, Evento, Meta # Importa modelos para setup
+# IMPORTA O NOVO MODELO 'PRODUTO'
+from pets.models import Pet, Evento, Meta, Produto 
 import time
 import os
 from datetime import date
+import decimal # Para o preço
 
 # ===============================================
 # CLASSE BASE - CONFIGURAÇÃO E LOGIN
@@ -79,6 +81,10 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         
         print("Verificando se 'Bolinha' está na lista...")
         self.wait.until(EC.url_contains('/pets/'))
+        # Verifica a mensagem de sucesso
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("Pet 'Bolinha' adicionado", mensagem_sucesso.text)
+        # Verifica se o nome está na lista
         lista_pets_div = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.pet-list')))
         self.assertIn("Bolinha", lista_pets_div.text)
         print("Teste Cenário 1 concluído.")
@@ -96,8 +102,8 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
         
         print("Verificando mensagem de erro...")
-        # <<< MUDANÇA AQUI: Usa um seletor mais genérico para a mensagem de erro da view >>>
-        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.form-container p[style*="color: red"]'))) # Mantido, pois é como a view está renderizando
+        # <<< CORRIGIDO: Procura pela mensagem de erro do Django messages >>>
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
         self.assertIn("obrigatórios", mensagem_erro.text)
         print("Teste Cenário 2 concluído.")
         time.sleep(3)
@@ -121,8 +127,8 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
 
         print("Verificando mensagem de erro...")
-        # <<< MUDANÇA AQUI: Usa um seletor mais genérico para a mensagem de erro da view >>>
-        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.form-container p[style*="color: red"]'))) # Mantido, pois é como a view está renderizando
+        # <<< CORRIGIDO: Procura pela mensagem de erro do Django messages >>>
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
         self.assertIn("positivo", mensagem_erro.text)
         print("Teste Cenário 3 concluído.")
         time.sleep(3)
@@ -182,8 +188,10 @@ class TesteHistoria2GerenciarPets(BaseE2ETestCase):
         time.sleep(2)
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
         
-        print("Verificando alteração na lista...")
+        print("Verificando alteração na lista e mensagem de sucesso...")
         self.wait.until(EC.url_contains('/pets/'))
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("atualizados com sucesso", mensagem_sucesso.text)
         lista_pets_div_depois = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.pet-list')))
         self.assertIn("PetEditado", lista_pets_div_depois.text)
         self.assertNotIn("PetGerencia", lista_pets_div_depois.text)
@@ -207,8 +215,10 @@ class TesteHistoria2GerenciarPets(BaseE2ETestCase):
         print("Confirmando exclusão...")
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.delete-btn.primary"))).click()
 
-        print("Verificando se o pet foi removido...")
+        print("Verificando se o pet foi removido e mensagem de sucesso...")
         self.wait.until(EC.url_contains('/pets/'))
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("removido com sucesso", mensagem_sucesso.text)
         self.wait.until(
             EC.any_of(
                 EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'pet-item-empty')]")),
@@ -257,13 +267,12 @@ class TesteHistoria3CadastroEvento(BaseE2ETestCase):
         print("Clicando em Adicionar...")
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
 
-        print("Verificando se o evento 'Consulta' foi criado...")
+        print("Verificando se o evento 'Consulta' foi criado e mensagem de sucesso...")
         self.wait.until(EC.url_contains('/eventos/'))
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("Evento adicionado!", mensagem_sucesso.text)
         lista_eventos_div = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.pet-list')))
         self.assertIn("Consulta", lista_eventos_div.text)
-        # <<< MUDANÇA AQUI: Verifica a mensagem de sucesso que a view deveria enviar >>>
-        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.success')))
-        self.assertIn("Evento adicionado!", mensagem_sucesso.text) # Ajuste a mensagem se for diferente na sua view
         print("Teste Cenário 1 concluído.")
         time.sleep(3)
 
@@ -287,8 +296,8 @@ class TesteHistoria3CadastroEvento(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
 
         print("Verificando mensagem de erro...")
-        # <<< MUDANÇA AQUI: Procura pela mensagem de erro do Django messages >>>
-        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.error')))
+        # <<< CORRIGIDO: Procura pela mensagem de erro do Django messages >>>
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
         self.assertIn("obrigatórios", mensagem_erro.text)
         print("Teste Cenário 3 concluído.")
         time.sleep(3)
@@ -320,7 +329,7 @@ class TesteHistoria4ConclusaoEvento(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable(evento_item.find_element(By.LINK_TEXT, "Concluir"))).click()
         
         print("Verificando se o evento foi marcado como concluído...")
-        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.success')))
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
         self.assertIn("Evento marcado como concluído!", mensagem_sucesso.text)
         
         evento_item_atualizado = self.wait.until(
@@ -344,8 +353,9 @@ class TesteHistoria4ConclusaoEvento(BaseE2ETestCase):
         evento_item_concluido = self.wait.until(
             EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'pet-item') and contains(., 'Medicamento')]"))
         )
-        with self.assertRaises(Exception):
-             evento_item_concluido.find_element(By.LINK_TEXT, "Concluir")
+        # Verifica que o botão não está lá
+        concluir_buttons = evento_item_concluido.find_elements(By.LINK_TEXT, "Concluir")
+        self.assertEqual(len(concluir_buttons), 0)
         self.assertIn("(Concluído)", evento_item_concluido.text)
         
         print("Tentando acessar URL de concluir diretamente...")
@@ -353,7 +363,7 @@ class TesteHistoria4ConclusaoEvento(BaseE2ETestCase):
         driver.get(url_concluir_direta)
 
         print("Verificando mensagem de aviso...")
-        mensagem_aviso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.warning')))
+        mensagem_aviso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.warning')))
         self.assertIn("Esse evento já foi concluído.", mensagem_aviso.text)
         print("Teste Cenário 3 concluído.")
         time.sleep(3)
@@ -387,8 +397,7 @@ class TesteHistoria5CadastroMeta(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "form.meta-form button[type='submit']"))).click()
         
         print("Verificando se a meta foi criada e mensagem de sucesso...")
-        # <<< MUDANÇA AQUI: Procura pela mensagem de sucesso padrão do Django >>>
-        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.success')))
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
         self.assertIn("Meta adicionada!", mensagem_sucesso.text)
         
         lista_metas_div = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.pet-list')))
@@ -410,8 +419,141 @@ class TesteHistoria5CadastroMeta(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "form.meta-form button[type='submit']"))).click()
 
         print("Verificando mensagem de erro...")
-        # <<< MUDANÇA AQUI: Procura pela mensagem de erro padrão do Django >>>
-        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, '.message.error')))
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
         self.assertIn("Preencha a descrição e a data", mensagem_erro.text)
         print("Teste Cenário 3 concluído.")
+        time.sleep(3)
+
+
+# ===============================================
+# <<< NOVA HISTÓRIA 8: PET SHOP >>>
+# ===============================================
+class TesteHistoria8PetShop(BaseE2ETestCase):
+    
+    def setUp(self):
+        """ Cria dados para os testes da loja """
+        super().setUp() # Faz login
+        # Cria produtos no banco de dados
+        self.produto1 = Produto.objects.create(
+            nome="Ração Super Premium", emoji="🐶",
+            descricao="Ração para cães de porte médio.",
+            preco=decimal.Decimal("150.00"), estoque=20
+        )
+        self.produto2 = Produto.objects.create(
+            nome="Arranhador para Gatos", emoji="🐱",
+            descricao="Torre com 3 andares.",
+            preco=decimal.Decimal("200.00"), estoque=10
+        )
+        self.produto_sem_estoque = Produto.objects.create(
+            nome="Bolinha Velha", emoji="🎾",
+            descricao="Já foi mordida.",
+            preco=decimal.Decimal("5.00"), estoque=0 # Sem estoque
+        )
+
+    def test_cenario_1_adicionar_ao_carrinho(self):
+        print("\nIniciando Teste: História 8, Cenário 1 - Adicionar produtos ao carrinho")
+        driver = self.driver
+        
+        # Acessa a loja
+        driver.get(f'{self.live_server_url}/shop/')
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "Pet Shop"))
+        print("Página da loja acessada.")
+        time.sleep(1)
+
+        # Encontra a Ração e clica em "Adicionar"
+        print("Adicionando Ração ao carrinho...")
+        item_racao = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//div[contains(@class, 'shop-item') and contains(., 'Ração Super Premium')]")))
+        self.wait.until(EC.element_to_be_clickable(item_racao.find_element(By.LINK_TEXT, "Adicionar ao carrinho"))).click()
+        
+        # Verifica a mensagem de sucesso
+        print("Verificando mensagem de sucesso...")
+        mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("Ração Super Premium' foi adicionado", mensagem_sucesso.text)
+        time.sleep(2)
+
+        # Adiciona o Arranhador
+        print("Adicionando Arranhador ao carrinho...")
+        item_arranhador = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//div[contains(@class, 'shop-item') and contains(., 'Arranhador para Gatos')]")))
+        self.wait.until(EC.element_to_be_clickable(item_arranhador.find_element(By.LINK_TEXT, "Adicionar ao carrinho"))).click()
+
+        # Verifica a mensagem de sucesso
+        print("Verificando mensagem de sucesso...")
+        mensagem_sucesso_2 = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+        self.assertIn("Arranhador para Gatos' foi adicionado", mensagem_sucesso_2.text)
+        time.sleep(2)
+        
+        # Vai para o carrinho
+        print("Acessando o carrinho...")
+        driver.get(f'{self.live_server_url}/cart/')
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "Meu Carrinho"))
+        
+        # Verifica se os dois itens estão lá
+        body_text = driver.find_element(By.TAG_NAME, 'body').text
+        self.assertIn("Ração Super Premium", body_text)
+        self.assertIn("Arranhador para Gatos", body_text)
+        self.assertIn("Total: R$ 350.00", body_text) # 150 + 200
+        print("Teste Cenário 1 concluído.")
+        time.sleep(3)
+
+    def test_cenario_2_finalizar_compra(self):
+        print("\nIniciando Teste: História 8, Cenário 2 - Finalizar compra")
+        driver = self.driver
+        
+        # Adiciona um item ao carrinho primeiro (usando a URL direta para ser mais rápido)
+        driver.get(f'{self.live_server_url}/cart/add/{self.produto1.pk}/')
+        
+        # Vai para o carrinho
+        print("Acessando o carrinho...")
+        driver.get(f'{self.live_server_url}/cart/')
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "Meu Carrinho"))
+        self.assertIn("Ração Super Premium", driver.find_element(By.TAG_NAME, 'body').text)
+        time.sleep(1)
+
+        # Clica em "Finalizar Compra"
+        print("Clicando em Finalizar Compra...")
+        self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Finalizar Compra"))).click()
+
+        # Verifica se foi para a página de sucesso
+        print("Verificando página de sucesso...")
+        self.wait.until(EC.url_contains('/purchase-success/'))
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "Compra realizada com sucesso!"))
+        self.assertIn("Compra realizada com sucesso!", driver.find_element(By.TAG_NAME, 'body').text)
+        print("Teste Cenário 2 concluído.")
+        time.sleep(3)
+        
+    def test_cenario_3_finalizar_compra_carrinho_vazio(self):
+        print("\nIniciando Teste: História 8, Cenário 3 - Carrinho vazio")
+        driver = self.driver
+
+        # Tenta finalizar a compra (indo direto para a view de checkout)
+        print("Tentando acessar a URL de checkout com carrinho vazio...")
+        driver.get(f'{self.live_server_url}/checkout/')
+
+        # Verifica se foi redirecionado para a loja e se a mensagem de erro apareceu
+        print("Verificando redirecionamento para a loja e mensagem de erro...")
+        self.wait.until(EC.url_contains('/shop/')) # Deve ser redirecionado para a loja
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
+        self.assertIn("Seu carrinho está vazio", mensagem_erro.text)
+        print("Teste Cenário 3 concluído.")
+        time.sleep(3)
+
+    def test_cenario_4_produto_indisponivel(self):
+        print("\nIniciando Teste: História 8, Cenário 4 - Produto indisponível")
+        driver = self.driver
+        
+        # Acessa a loja
+        driver.get(f'{self.live_server_url}/shop/')
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "Pet Shop"))
+        print("Página da loja acessada.")
+
+        # Tenta adicionar o produto sem estoque (indo pela URL direta)
+        print("Tentando adicionar produto sem estoque...")
+        driver.get(f'{self.live_server_url}/cart/add/{self.produto_sem_estoque.pk}/')
+
+        # Verifica se continua na loja e se a mensagem de erro apareceu
+        print("Verificando mensagem de erro...")
+        self.wait.until(EC.url_contains('/shop/')) 
+        mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
+        self.assertIn("Produto indisponível", mensagem_erro.text)
+        print("Teste Cenário 4 concluído.")
         time.sleep(3)
