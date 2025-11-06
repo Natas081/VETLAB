@@ -3,13 +3,13 @@
 # ==============================================================================
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Pet, Evento, Meta, ItemCompra # <-- Mudança aqui
+from .models import Pet, Evento, Meta, ItemCompra # Garanta que ItemCompra está aqui
 
 # Imports para o sistema de Login
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse # Para as views secretas (agora removidas)
+from django.http import HttpResponse 
 
 
 # ==============================================================================
@@ -78,8 +78,6 @@ def pet_list(request):
     return render(request, 'pets/pet_list.html', {'pets': pets})
 
 
-# No seu pets/views.py, substitua estas duas funções:
-
 @login_required
 def pet_create(request):
     if request.method == 'POST':
@@ -96,15 +94,17 @@ def pet_create(request):
 
         if not nome or not especie or not data_nascimento or not peso:
             messages.error(request, "Os campos Nome, Espécie, Data de Nascimento e Peso são obrigatórios.")
-            # Envia 'pet': None para o template não quebrar
+            # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         try:
             peso_float = float(peso)
             if peso_float <= 0:
                 messages.error(request, "O peso deve ser um valor positivo.")
+                # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
                 return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         except (ValueError, TypeError):
             messages.error(request, "O valor do peso é inválido.")
+            # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
 
         Pet.objects.create(
@@ -114,7 +114,7 @@ def pet_create(request):
         messages.success(request, f"Pet '{nome}' adicionado com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO PRINCIPAL DO ERRO 500/VariableDoesNotExist >>>
+    # <<< CORREÇÃO PRINCIPAL DO ERRO 'VariableDoesNotExist' >>>
     # Passa 'values' vazio E 'pet' como None
     return render(request, 'pets/pet_form.html', {'values': {}, 'pet': None})
 
@@ -155,7 +155,7 @@ def pet_edit(request, pk):
         messages.success(request, f"Dados de '{pet.nome}' atualizados com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO PRINCIPAL DO ERRO 500/VariableDoesNotExist >>>
+    # <<< CORREÇÃO PRINCIPAL DO ERRO 'VariableDoesNotExist' >>>
     # Passa 'values' vazio E o 'pet' para preencher os campos
     return render(request, 'pets/pet_form.html', {'pet': pet, 'values': {}})
 
@@ -327,12 +327,7 @@ def meta_atualizar_progresso(request, pk):
 
 
 # ==============================================================================
-# <<< REMOVIDAS: Todas as views antigas do Pet Shop e views secretas >>>
-# ==============================================================================
-
-
-# ==============================================================================
-# <<< NOVAS VIEWS: Lista de Compras (como Metas) >>>
+# VIEWS DA LISTA DE COMPRAS (Antigo Pet Shop)
 # ==============================================================================
 
 @login_required
@@ -348,7 +343,6 @@ def shop_list_view(request, pet_pk):
             messages.success(request, 'Item adicionado à lista de compras!')
         return redirect('shop_list', pet_pk=pet.pk)
     
-    # Pega os itens não comprados e os comprados (separadamente)
     itens_nao_comprados = ItemCompra.objects.filter(pet=pet, comprado=False).order_by('criado_em')
     itens_comprados = ItemCompra.objects.filter(pet=pet, comprado=True).order_by('-criado_em')
     
@@ -357,16 +351,13 @@ def shop_list_view(request, pet_pk):
         'itens_nao_comprados': itens_nao_comprados,
         'itens_comprados': itens_comprados,
     }
-    # Aponta para o seu 'petshop.html'
     return render(request, 'pets/petshop.html', context)
 
 
 @login_required
 def shop_item_marcar(request, pk):
-    """ Marca um item como comprado ou não comprado (toggle) """
     item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
     
-    # Inverte o status
     item.comprado = not item.comprado
     item.save()
     
@@ -380,7 +371,6 @@ def shop_item_marcar(request, pk):
 
 @login_required
 def shop_item_remover(request, pk):
-    """ Remove um item da lista de compras (POST para segurança) """
     item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
     descricao_item = item.descricao
     
@@ -389,5 +379,4 @@ def shop_item_remover(request, pk):
         messages.success(request, f"Item '{descricao_item}' removido da lista.")
         return redirect('shop_list', pet_pk=item.pet.pk)
     
-    # Se for GET, mostra uma confirmação (vamos criar este template)
     return render(request, 'pets/shop_item_confirm_delete.html', {'item': item})
