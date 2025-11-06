@@ -3,15 +3,13 @@
 # ==============================================================================
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Pet, Evento, Meta, Produto # Garanta que Produto está importado
+from .models import Pet, Evento, Meta, ItemCompra # <-- Mudança aqui
 
 # Imports para o sistema de Login
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-
-from django.http import HttpResponse # Adicione este import se não estiver lá
-from django.contrib.auth.models import User # Garanta que este import está lá
+from django.http import HttpResponse # Para as views secretas (agora removidas)
 
 
 # ==============================================================================
@@ -113,8 +111,7 @@ def pet_create(request):
         messages.success(request, f"Pet '{nome}' adicionado com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO DO ERRO 'VariableDoesNotExist' >>>
-    # Passa um 'values' vazio no GET para o template não quebrar
+    # Passa 'values' vazio no GET para o template pet_form não quebrar
     return render(request, 'pets/pet_form.html', {'values': {}})
 
 
@@ -154,8 +151,7 @@ def pet_edit(request, pk):
         messages.success(request, f"Dados de '{pet.nome}' atualizados com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO DO ERRO 'VariableDoesNotExist' >>>
-    # Passa 'values' vazio no GET e 'pet' para preencher os campos
+    # Passa 'values' vazio no GET para o template pet_form não quebrar
     return render(request, 'pets/pet_form.html', {'pet': pet, 'values': {}})
 
 
@@ -175,12 +171,8 @@ def pet_visao_geral(request, pk):
     pet = get_object_or_404(Pet, pk=pk, tutor=request.user)
     eventos = pet.eventos.all().order_by('-data')[:5]
     metas = pet.metas.all().order_by('progresso', 'data_prazo')
-    total_eventos = pet.eventos.count()
-    metas_concluidas = pet.metas.filter(progresso=100).count()
-    
     context = {
         'pet': pet, 'eventos': eventos, 'metas': metas,
-        'total_eventos': total_eventos, 'metas_concluidas': metas_concluidas,
     }
     if not eventos and not metas:
         messages.info(request, 'Esse pet ainda não possui registros de eventos ou metas.')
@@ -330,177 +322,67 @@ def meta_atualizar_progresso(request, pk):
 
 
 # ==============================================================================
-# VIEWS DO PET SHOP (CORRIGIDAS PARA OS SEUS NOMES DE TEMPLATE)
+# <<< REMOVIDAS: Todas as views antigas do Pet Shop e views secretas >>>
+# ==============================================================================
+
+
+# ==============================================================================
+# <<< NOVAS VIEWS: Lista de Compras (como Metas) >>>
 # ==============================================================================
 
 @login_required
-def shop_list_view(request):
-    """
-    Mostra a lista de todos os produtos disponíveis na loja.
-    """
-    produtos = Produto.objects.filter(estoque__gt=0)
-    context = {'produtos': produtos}
-    # <<< CORRIGIDO: Usa o nome do seu template >>>
+def shop_list_view(request, pet_pk):
+    pet = get_object_or_404(Pet, pk=pet_pk, tutor=request.user)
+    
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao')
+        if not descricao:
+            messages.error(request, 'Você precisa digitar o nome do item.')
+        else:
+            ItemCompra.objects.create(pet=pet, descricao=descricao)
+            messages.success(request, 'Item adicionado à lista de compras!')
+        return redirect('shop_list', pet_pk=pet.pk)
+    
+    # Pega os itens não comprados e os comprados (separadamente)
+    itens_nao_comprados = ItemCompra.objects.filter(pet=pet, comprado=False).order_by('criado_em')
+    itens_comprados = ItemCompra.objects.filter(pet=pet, comprado=True).order_by('-criado_em')
+    
+    context = {
+        'pet': pet,
+        'itens_nao_comprados': itens_nao_comprados,
+        'itens_comprados': itens_comprados,
+    }
+    # Aponta para o seu 'petshop.html'
     return render(request, 'pets/petshop.html', context)
 
 
 @login_required
-def add_to_cart_view(request, produto_pk):
-    """
-    Ação de adicionar um produto ao carrinho na sessão.
-    """
-    produto = get_object_or_404(Produto, pk=produto_pk)
-    carrinho = request.session.get('carrinho', {})
-    pk_str = str(produto.pk)
-    quantidade_no_carrinho = carrinho.get(pk_str, 0)
-
-    if produto.estoque <= quantidade_no_carrinho:
-        messages.error(request, "Produto indisponível no momento (sem estoque suficiente).")
-        return redirect('shop_list')
-
-    carrinho[pk_str] = quantidade_no_carrinho + 1
-    request.session['carrinho'] = carrinho
-    messages.success(request, f"'{produto.nome}' foi adicionado ao carrinho!")
-    return redirect('shop_list')
+def shop_item_marcar(request, pk):
+    """ Marca um item como comprado ou não comprado (toggle) """
+    item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
+    
+    # Inverte o status
+    item.comprado = not item.comprado
+    item.save()
+    
+    if item.comprado:
+        messages.success(request, f"Item '{item.descricao}' marcado como comprado!")
+    else:
+        messages.info(request, f"Item '{item.descricao}' movido de volta para a lista.")
+        
+    return redirect('shop_list', pet_pk=item.pet.pk)
 
 
 @login_required
-def cart_view(request):
-    """
-    Mostra os itens que estão atualmente no carrinho.
-    """
-    carrinho_session = request.session.get('carrinho', {})
-    produto_ids = carrinho_session.keys()
-    produtos_no_carrinho = Produto.objects.filter(pk__in=[int(pk) for pk in produto_ids])
+def shop_item_remover(request, pk):
+    """ Remove um item da lista de compras (POST para segurança) """
+    item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
+    descricao_item = item.descricao
     
-    itens_carrinho = []
-    total_compra = 0
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, f"Item '{descricao_item}' removido da lista.")
+        return redirect('shop_list', pet_pk=item.pet.pk)
     
-    for produto in produtos_no_carrinho:
-        pk_str = str(produto.pk)
-        quantidade = carrinho_session[pk_str]
-        subtotal = produto.preco * quantidade
-        
-        itens_carrinho.append({
-            'produto': produto,
-            'quantidade': quantidade,
-            'subtotal': subtotal
-        })
-        total_compra += subtotal
-        
-    context = {
-        'itens_carrinho': itens_carrinho,
-        'total_compra': total_compra
-    }
-    # <<< CORRIGIDO: Usa o nome do seu template >>>
-    return render(request, 'pets/petshop2.html', context)
-
-
-@login_required
-def remove_from_cart_view(request, produto_pk):
-    """
-    Ação de remover completamente um item do carrinho.
-    """
-    carrinho = request.session.get('carrinho', {})
-    pk_str = str(produto_pk)
-    
-    if pk_str in carrinho:
-        del carrinho[pk_str]
-        request.session['carrinho'] = carrinho
-        messages.info(request, "Produto removido do carrinho.")
-        
-    return redirect('cart_view')
-
-
-@login_required
-def checkout_view(request):
-    """
-    Processa o "pagamento" (simulado).
-    """
-    carrinho = request.session.get('carrinho', {})
-
-    if not carrinho:
-        messages.error(request, "Seu carrinho está vazio. Adicione produtos antes de finalizar.")
-        return redirect('shop_list')
-
-    ids = [int(pk) for pk in carrinho.keys()]
-    produtos = Produto.objects.filter(pk__in=ids)
-    
-    for produto in produtos:
-        pk_str = str(produto.pk)
-        if produto.estoque < carrinho[pk_str]:
-            messages.error(request, f"Desculpe, o produto '{produto.nome}' não tem estoque suficiente.")
-            return redirect('cart_view')
-
-    for produto in produtos:
-        pk_str = str(produto.pk)
-        produto.estoque -= carrinho[pk_str]
-        produto.save()
-        
-    request.session['carrinho'] = {}
-    
-    return redirect('purchase_success')
-
-
-@login_required
-def purchase_success_view(request):
-    """
-    Mostra a mensagem de sucesso após a compra.
-    """
-    # <<< CORRIGIDO: Usa o nome do seu template >>>
-    return render(request, 'pets/petshop3.html')
-
-# ... (no final do seu pets/views.py, depois de purchase_success_view) ...
-# ... (no final do seu pets/views.py, depois de purchase_success_view) ...
-
-from django.http import HttpResponse
-from django.core.management import call_command
-from io import StringIO
-
-@login_required
-def popular_loja_view(request):
-    """
-    Uma view secreta para rodar o comando 'popular_loja' no servidor.
-    Só funciona se o usuário for um Superusuário.
-    """
-    if not request.user.is_superuser:
-        return HttpResponse("Acesso negado. Você precisa ser um admin.", status=403)
-    
-    # Prepara para capturar a saída do comando
-    out = StringIO()
-    
-    try:
-        # Chama o comando 'popular_loja'
-        call_command('popular_loja', stdout=out)
-        
-        # Pega a saída do comando
-        resultado = out.getvalue()
-        
-        messages.success(request, f"Comando executado!<br><pre>{resultado}</pre>")
-    
-    except Exception as e:
-        messages.error(request, f"Ocorreu um erro ao rodar o comando: {e}")
-    
-    # Redireciona de volta para a loja para ver o resultado
-    return redirect('shop_list')
-
-def criar_superusuario_emergencia(request):
-    """
-    View de emergência para criar um superusuário no Render.
-    USE APENAS UMA VEZ E DEPOIS REMOVA ESTA VIEW E SUA URL!
-    """
-    try:
-        # TENTA CRIAR O USUÁRIO
-        novo_admin = User.objects.create_superuser(
-            username="admin_emergencia",
-            email="admin@vetlab.com",
-            password="senhaforte123"
-        )
-        novo_admin.save()
-        
-        # Resposta de sucesso
-        return HttpResponse("<h1>SUCESSO!</h1> <p>Superusuário 'admin_emergencia' com senha 'senhaforte123' foi criado.</p> <p>Agora você pode logar em /admin/ e depois visitar a URL /pets/admin/popular-loja-agora/</p> <p><b>LEMBRE-SE DE APAGAR ESTA ROTA DO urls.py DEPOIS!</b></p>")
-
-    except Exception as e:
-        # Caso o usuário já exista ou dê outro erro
-        return HttpResponse(f"<h1>ERRO!</h1> <p>Não foi possível criar o usuário. Talvez 'admin_emergencia' já exista?</p> <p>Erro: {e}</p>")
+    # Se for GET, mostra uma confirmação (vamos criar este template)
+    return render(request, 'pets/shop_item_confirm_delete.html', {'item': item})

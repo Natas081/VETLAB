@@ -2,22 +2,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
     <title>Lista de Pets</title>
 </head>
 <body>
-
     <main class="list-container">
-
-        <div class="user-info-header">
-            <span>Bem-vindo, {{ user.username }}!</span>
-            <a href="{% url 'logout' %}" class="logout-button">Sair</a>
-        </div>
-
-        <h1>LISTA DE PETS</h1>
-
         {% if messages %}
             <div class="messages standalone-messages">
                 {% for message in messages %}
@@ -29,8 +17,8 @@
         <div class="main-actions">
             <a href="{% url 'pet_create' %}" class="add-pet-button">Adicionar Novo Pet</a>
             <a href="{% url 'evento_selecionar_pet' %}" class="add-event-button">Cadastrar Evento</a>
-            <a href="{% url 'shop_list' %}" class="action-btn" style="background-color: #4CAF50; border-color: #4CAF50;">🛒 Pet Shop</a>
-        </div>
+            </div>
+
         <div class="pet-list">
             {% for pet in pets %}
                 <div class="pet-item">
@@ -41,6 +29,7 @@
 
                     <div class="pet-actions">
                         <a href="{% url 'pet_visao_geral' pet.pk %}" class="action-btn overview-btn">Visão Geral</a>
+                        <a href="{% url 'shop_list' pet.pk %}" class="action-btn" style="background-color: #4CAF50;">🛒 Compras</a>
                         <a href="{% url 'meta_list' pet.pk %}" class="action-btn metas-btn">Metas</a>
                         <a href="{% url 'evento_list' pet.pk %}" class="action-btn eventos-btn">Eventos</a>
                         <a href="{% url 'pet_edit' pet.pk %}" class="edit-btn">Editar</a>
@@ -55,8 +44,6 @@
         </div>
 
         <a class="back-link" href="{% url 'home' %}">Página Inicial</a>
-
     </main>
-
 </body>
 </html>

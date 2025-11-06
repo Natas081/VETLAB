@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'pets/style.css' %}">
+    <title>Confirmar Remoção</title>
+</head>
+<body>
+    <main class="form-container" style="text-align: center;">
+        <h1>TEM CERTEZA?</h1>
+        <p>Você está prestes a remover o item da lista de compras:</p>
+        <p><strong>"{{ item.descricao }}"</strong></p>
+        <p>Esta ação não pode ser desfeita.</p>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="delete-confirm-actions">
+                <button type="submit" class="delete-btn primary">Sim, Remover</button>
+                <a href="{% url 'shop_list' item.pet.pk %}" class="action-btn overview-btn">Não, Cancelar</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

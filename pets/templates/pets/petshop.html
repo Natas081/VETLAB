@@ -5,22 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'pets/style.css' %}">
-    <title>Pet Shop</title>
+    <title>Lista de Compras de {{ pet.nome }}</title>
+    <style>
+        .item-comprado {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .item-comprado .pet-name {
+            color: #555;
+        }
+    </style>
 </head>
 <body>
     <main class="list-container">
-
-        <div class="user-info-header">
-            <span>Bem-vindo, {{ user.username }}!</span>
-            <a href="{% url 'logout' %}" class="logout-button">Sair</a>
-        </div>
-
-        <h1>🛒 Pet Shop</h1>
-        
-        <div class="main-actions">
-            <a href="{% url 'cart_view' %}" class="action-btn overview-btn">Ver Carrinho</a>
-            <a href="{% url 'pet_list' %}" class="action-btn">Meus Pets</a>
-        </div>
+        <h1>🛒 Lista de Compras de {{ pet.nome }}</h1>
 
         {% if messages %}
             <div class="messages standalone-messages">
@@ -30,34 +28,61 @@
             </div>
         {% endif %}
 
-        <div class="pet-list"> {% for produto in produtos %}
-                <div class="shop-item"> <div class="shop-item-details">
-                        <div class="product-image-emoji">
-                            {{ produto.emoji|default:"📦" }}
-                        </div>
-                        <div class="product-info">
-                            <h2 class="pet-name">{{ produto.nome }}</h2>
-                            <h3 class="pet-species">R$ {{ produto.preco }}</h3>
-                            <p>{{ produto.descricao }}</p>
-                            <small>Estoque: {{ produto.estoque }}</small>
-                        </div>
-                    </div>
+        <form class
+="meta-form" method="post" action="{% url 'shop_list' pet.pk %}">
+            {% csrf_token %}
+            <div class="form-row">
+                <input type="text" name="descricao" placeholder="Ex: Ração Super Premium 10kg" required>
+                <button type="submit" class="add-pet-button">Adicionar</button>
+            </div>
+        </form>
 
+        <h2 style="margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px;">A Comprar</h2>
+        <div class="pet-list">
+            {% for item in itens_nao_comprados %}
+                <div class="pet-item">
+                    <div class="pet-info">
+                        <span class="pet-name">{{ item.descricao }}</span>
+                        <small>Adicionado em: {{ item.criado_em|date:"d/m/Y" }}</small>
+                    </div>
                     <div class="pet-actions">
-                        {% if produto.estoque > 0 %}
-                            <a href="{% url 'add_to_cart' produto.pk %}" class="add-pet-button">Adicionar ao carrinho</a>
-                        {% else %}
-                            <span class="disabled-btn">Indisponível</span>
-                        {% endif %}
+                        <a href="{% url 'shop_item_marcar' item.pk %}" class="action-btn" style="background-color: #4CAF50;">Marcar Comprado</a>
+                        <form action="{% url 'shop_item_remover' item.pk %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" onclick="return confirm('Tem certeza que deseja remover este item?');">Remover</button>
+                        </form>
                     </div>
                 </div>
             {% empty %}
                 <div class="pet-item-empty">
-                    <p>Nenhum produto disponível no momento.</p>
+                    <p>Nenhum item na lista de compras.</p>
                 </div>
             {% endfor %}
         </div>
 
+        <h2 style="margin-top: 30px; border-bottom: 1px solid #eee; padding-bottom: 5px;">Comprados</h2>
+        <div class="pet-list">
+            {% for item in itens_comprados %}
+                <div class="pet-item item-comprado"> <div class="pet-info">
+                        <span class="pet-name">{{ item.descricao }}</span>
+                        <small>Adicionado em: {{ item.criado_em|date:"d/m/Y" }}</small>
+                    </div>
+                    <div class="pet-actions">
+                        <a href="{% url 'shop_item_marcar' item.pk %}" class="action-btn overview-btn">Desmarcar</a>
+                        <form action="{% url 'shop_item_remover' item.pk %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" onclick="return confirm('Tem certeza que deseja remover este item?');">Remover</button>
+                        </form>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="pet-item-empty">
+                    <p>Nenhum item comprado recentemente.</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
     </main>
 </body>
 </html>

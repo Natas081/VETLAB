@@ -1,9 +1,7 @@
 from django.contrib import admin
-# Importa todos os seus modelos
-from .models import Pet, Evento, Meta, Produto
+from .models import Pet, Evento, Meta, ItemCompra # <-- Mudança aqui
 
-# Registra cada um deles
 admin.site.register(Pet)
 admin.site.register(Evento)
 admin.site.register(Meta)
-admin.site.register(Produto)
+admin.site.register(ItemCompra) # <-- Mudança aqui
