@@ -78,6 +78,8 @@ def pet_list(request):
     return render(request, 'pets/pet_list.html', {'pets': pets})
 
 
+# No seu pets/views.py, substitua estas duas funções:
+
 @login_required
 def pet_create(request):
     if request.method == 'POST':
@@ -94,15 +96,16 @@ def pet_create(request):
 
         if not nome or not especie or not data_nascimento or not peso:
             messages.error(request, "Os campos Nome, Espécie, Data de Nascimento e Peso são obrigatórios.")
-            return render(request, 'pets/pet_form.html', {'values': context_values})
+            # Envia 'pet': None para o template não quebrar
+            return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         try:
             peso_float = float(peso)
             if peso_float <= 0:
                 messages.error(request, "O peso deve ser um valor positivo.")
-                return render(request, 'pets/pet_form.html', {'values': context_values})
+                return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         except (ValueError, TypeError):
             messages.error(request, "O valor do peso é inválido.")
-            return render(request, 'pets/pet_form.html', {'values': context_values})
+            return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
 
         Pet.objects.create(
             tutor=request.user, nome=nome, especie=especie, raca=raca,
@@ -111,8 +114,9 @@ def pet_create(request):
         messages.success(request, f"Pet '{nome}' adicionado com sucesso!")
         return redirect('pet_list')
     
-    # Passa 'values' vazio no GET para o template pet_form não quebrar
-    return render(request, 'pets/pet_form.html', {'values': {}})
+    # <<< CORREÇÃO PRINCIPAL DO ERRO 500/VariableDoesNotExist >>>
+    # Passa 'values' vazio E 'pet' como None
+    return render(request, 'pets/pet_form.html', {'values': {}, 'pet': None})
 
 
 @login_required
@@ -151,7 +155,8 @@ def pet_edit(request, pk):
         messages.success(request, f"Dados de '{pet.nome}' atualizados com sucesso!")
         return redirect('pet_list')
     
-    # Passa 'values' vazio no GET para o template pet_form não quebrar
+    # <<< CORREÇÃO PRINCIPAL DO ERRO 500/VariableDoesNotExist >>>
+    # Passa 'values' vazio E o 'pet' para preencher os campos
     return render(request, 'pets/pet_form.html', {'pet': pet, 'values': {}})
 
 
