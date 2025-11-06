@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 
+from django.http import HttpResponse # Adicione este import se não estiver lá
+from django.contrib.auth.models import User # Garanta que este import está lá
+
 
 # ==============================================================================
 # VIEWS PÚBLICAS (NÃO PRECISAM DE LOGIN)
@@ -480,3 +483,24 @@ def popular_loja_view(request):
     
     # Redireciona de volta para a loja para ver o resultado
     return redirect('shop_list')
+
+def criar_superusuario_emergencia(request):
+    """
+    View de emergência para criar um superusuário no Render.
+    USE APENAS UMA VEZ E DEPOIS REMOVA ESTA VIEW E SUA URL!
+    """
+    try:
+        # TENTA CRIAR O USUÁRIO
+        novo_admin = User.objects.create_superuser(
+            username="admin_emergencia",
+            email="admin@vetlab.com",
+            password="senhaforte123"
+        )
+        novo_admin.save()
+        
+        # Resposta de sucesso
+        return HttpResponse("<h1>SUCESSO!</h1> <p>Superusuário 'admin_emergencia' com senha 'senhaforte123' foi criado.</p> <p>Agora você pode logar em /admin/ e depois visitar a URL /pets/admin/popular-loja-agora/</p> <p><b>LEMBRE-SE DE APAGAR ESTA ROTA DO urls.py DEPOIS!</b></p>")
+
+    except Exception as e:
+        # Caso o usuário já exista ou dê outro erro
+        return HttpResponse(f"<h1>ERRO!</h1> <p>Não foi possível criar o usuário. Talvez 'admin_emergencia' já exista?</p> <p>Erro: {e}</p>")
