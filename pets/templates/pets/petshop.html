@@ -28,8 +28,7 @@
             </div>
         {% endif %}
 
-        <form class
-="meta-form" method="post" action="{% url 'shop_list' pet.pk %}">
+        <form class="meta-form" method="post" action="{% url 'shop_list' pet.pk %}">
             {% csrf_token %}
             <div class="form-row">
                 <input type="text" name="descricao" placeholder="Ex: Ração Super Premium 10kg" required>
