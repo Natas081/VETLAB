@@ -87,6 +87,7 @@ def pet_create(request):
         data_nascimento = request.POST.get('data_nascimento')
         peso = request.POST.get('peso')
 
+        # Dicionário para repopular o formulário em caso de erro
         context_values = {
             'nome': nome, 'especie': especie, 'raca': raca,
             'data_nascimento': data_nascimento, 'peso': peso
@@ -94,17 +95,15 @@ def pet_create(request):
 
         if not nome or not especie or not data_nascimento or not peso:
             messages.error(request, "Os campos Nome, Espécie, Data de Nascimento e Peso são obrigatórios.")
-            # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
+            # Envia 'pet': None (para o H1) e os 'values' que o usuário digitou
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         try:
             peso_float = float(peso)
             if peso_float <= 0:
                 messages.error(request, "O peso deve ser um valor positivo.")
-                # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
                 return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
         except (ValueError, TypeError):
             messages.error(request, "O valor do peso é inválido.")
-            # <<< CORREÇÃO: Envia 'pet': None para o template não quebrar >>>
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
 
         Pet.objects.create(
@@ -114,14 +113,15 @@ def pet_create(request):
         messages.success(request, f"Pet '{nome}' adicionado com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO PRINCIPAL DO ERRO 'VariableDoesNotExist' >>>
-    # Passa 'values' vazio E 'pet' como None
+    # <<< CORREÇÃO PRINCIPAL (GET) >>>
+    # Passa 'values' vazio E 'pet' como None.
     return render(request, 'pets/pet_form.html', {'values': {}, 'pet': None})
 
 
 @login_required
 def pet_edit(request, pk):
     pet = get_object_or_404(Pet, pk=pk, tutor=request.user)
+    
     if request.method == 'POST':
         nome = request.POST.get('nome')
         especie = request.POST.get('especie')
@@ -129,6 +129,7 @@ def pet_edit(request, pk):
         data_nascimento = request.POST.get('data_nascimento')
         peso = request.POST.get('peso')
         
+        # Dicionário para repopular em caso de erro
         context_values = {
             'nome': nome, 'especie': especie, 'raca': raca,
             'data_nascimento': data_nascimento, 'peso': peso
@@ -155,10 +156,16 @@ def pet_edit(request, pk):
         messages.success(request, f"Dados de '{pet.nome}' atualizados com sucesso!")
         return redirect('pet_list')
     
-    # <<< CORREÇÃO PRINCIPAL DO ERRO 'VariableDoesNotExist' >>>
-    # Passa 'values' vazio E o 'pet' para preencher os campos
-    return render(request, 'pets/pet_form.html', {'pet': pet, 'values': {}})
-
+    # <<< CORREÇÃO PRINCIPAL (GET) >>>
+    # Prepara os 'values' com os dados do pet para o template "burro"
+    values = {
+        'nome': pet.nome,
+        'especie': pet.especie,
+        'raca': pet.raca,
+        'data_nascimento': pet.data_nascimento.strftime('%Y-%m-%d'),
+        'peso': pet.peso
+    }
+    return render(request, 'pets/pet_form.html', {'pet': pet, 'values': values})
 
 @login_required
 def pet_delete(request, pk):

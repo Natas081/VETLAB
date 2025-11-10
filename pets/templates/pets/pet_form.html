@@ -19,29 +19,30 @@
                 {% endfor %}
             </div>
         {% endif %}
+
         <form method="post">
             {% csrf_token %}
 
             <div class="manual-form">
                 <p>
                     <label for="id_nome">Nome:</label>
-                    <input type="text" name="nome" id="id_nome" value="{{ values.nome|default:pet.nome|default:'' }}" required>
+                    <input type="text" name="nome" id="id_nome" value="{{ values.nome|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_especie">Espécie:</label>
-                    <input type="text" name="especie" id="id_especie" value="{{ values.especie|default:pet.especie|default:'' }}" required>
+                    <input type="text" name="especie" id="id_especie" value="{{ values.especie|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_raca">Raça (opcional):</label>
-                    <input type="text" name="raca" id="id_raca" value="{{ values.raca|default:pet.raca|default:'' }}">
+                    <input type="text" name="raca" id="id_raca" value="{{ values.raca|default:'' }}">
                 </p>
                 <p>
                     <label for="id_data_nascimento">Data de Nascimento:</label>
-                    <input type="date" name="data_nascimento" id="id_data_nascimento" value="{{ values.data_nascimento|default:pet.data_nascimento|date:'Y-m-d'|default:'' }}" required>
+                    <input type="date" name="data_nascimento" id="id_data_nascimento" value="{{ values.data_nascimento|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_peso">Peso (kg):</label>
-                    <input type="number" name="peso" step="0.1" id="id_peso" value="{{ values.peso|default:pet.peso|default:'' }}" required>
+                    <input type="number" name="peso" step="0.1" id="id_peso" value="{{ values.peso|default:'' }}" required>
                 </p>
             </div>
             
