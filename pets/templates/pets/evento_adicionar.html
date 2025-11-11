@@ -12,18 +12,23 @@
         <h1>{% if evento %}EDITAR EVENTO{% else %}ADICIONAR EVENTO{% endif %}</h1>
         <h2 style="font-size: 1.2rem; color: #555; margin-top: -20px; margin-bottom: 30px;">para {{ pet.nome }}</h2>
 
-        {% if error_message %}
-            <p style="color: red; font-weight: bold; margin-bottom: 20px;">{{ error_message }}</p>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
         {% endif %}
-
         <form method="post">
             {% csrf_token %}
             <div class="manual-form">
                 <p>
                     <label for="id_tipo">Tipo de Evento:</label>
                     <select name="tipo" id="id_tipo" required>
+                        <option value="">--- Selecione ---</option>
                         {% for value, display_text in tipos_evento %}
-                            <option value="{{ value }}" {% if evento.tipo == value %}selected{% endif %}>
+                            <option value="{{ value }}" 
+                                {% if values.tipo == value %}selected{% elif not values.tipo and evento.tipo == value %}selected{% endif %}>
                                 {{ display_text }}
                             </option>
                         {% endfor %}
@@ -31,11 +36,11 @@
                 </p>
                 <p>
                     <label for="id_data">Data do Evento:</label>
-                    <input type="date" name="data" id="id_data" value="{{ evento.data|date:'Y-m-d'|default:'' }}" required>
+                    <input type="date" name="data" id="id_data" value="{{ values.data|default:evento.data|date:'Y-m-d'|default:'' }}" required>
                 </p>
                 <p>
                     <label for="id_observacoes">Observações (opcional):</label>
-                    <textarea name="observacoes" id="id_observacoes" rows="4">{{ evento.observacoes|default:'' }}</textarea>
+                    <textarea name="observacoes" id="id_observacoes" rows="4">{{ values.observacoes|default:evento.observacoes|default:'' }}</textarea>
                 </p>
             </div>
             <button type="submit">{% if evento %}Salvar Alterações{% else %}Adicionar{% endif %}</button>
