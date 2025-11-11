@@ -9,6 +9,7 @@
 </head>
 <body>
     <main class="list-container">
+
         <div class="user-info-header">
             <span>Bem-vindo, {{ user.username }}!</span>
             <a href="{% url 'logout' %}" class="logout-button">Sair</a>
@@ -26,8 +27,7 @@
 
         <div class="main-actions">
             <a href="{% url 'pet_create' %}" class="add-pet-button">Adicionar Novo Pet</a>
-            <a href="{% url 'evento_selecionar_pet' %}" class="add-event-button">Cadastrar Evento</a>
-        </div>
+            </div>
 
         <div class="pet-list">
             {% for pet in pets %}
@@ -42,8 +42,8 @@
                         <a href="{% url 'shop_list' pet.pk %}" class="action-btn" style="background-color: #4CAF50;">🛒 Compras</a>
                         <a href="{% url 'meta_list' pet.pk %}" class="action-btn metas-btn">Metas</a>
                         <a href="{% url 'evento_list' pet.pk %}" class="action-btn eventos-btn">Eventos</a>
-                        <a href="{% url 'pet_edit' pet.pk %}" class="edit-btn">Editar</a>
-                        <a href="{% url 'pet_delete' pet.pk %}" class="delete-btn">Excluir</a>
+                        <a href="{% url 'pet_edit' pet.pk %}" class="action-btn edit-btn">Editar</a>
+                        <a href="{% url 'pet_delete' pet.pk %}" class="action-btn delete-btn">Excluir</a>
                     </div>
                 </div>
             {% empty %}
@@ -54,6 +54,7 @@
         </div>
 
         <a class="back-link" href="{% url 'home' %}">Página Inicial</a>
+
     </main>
 </body>
 </html>

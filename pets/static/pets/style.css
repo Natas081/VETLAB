@@ -1,96 +1,43 @@
-/* Importa uma fonte mais agradável do Google Fonts (Opcional, mas recomendado) */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* Importa a fonte Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- :root (Variáveis de Cor) --- */
+:root {
+    --cor-fundo: #f8f9fa; /* Fundo cinza bem claro */
+    --cor-container: #ffffff; /* Fundo branco para os cards */
+    --cor-borda: #e5e7eb;
+    --cor-texto-principal: #1f2937;
+    --cor-texto-secundario: #6b7280;
+    --cor-verde-principal: #10B981;
+    --cor-verde-hover: #059669;
+    --cor-verde-claro: #ECFDF5;
+    --cor-azul: #3B82F6;
+    --cor-vermelho: #EF4444;
+    --cor-vermelho-hover: #DC2626;
+    --cor-laranja: #F59E0B;
+    --cor-roxo: #8B5CF6;
+    --cor-cinza-escuro: #374151;
+    --sombra-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
 
 /* --- Estilos Gerais --- */
-body {
-    background-color: #34D399; 
-    font-family: 'Poppins', sans-serif;
+* {
+    box-sizing: border-box;
     margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0;
+}
+
+body {
+    background-color: var(--cor-fundo); 
+    font-family: 'Poppins', sans-serif;
+    color: var(--cor-texto-principal);
+    margin: 0;
+    padding: 20px;
     min-height: 100vh;
 }
 
-/* --- Container Principal do Formulário --- */
-.form-container {
-    background-color: #f0f0f0;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-}
-
-/* --- Título (CADASTRO DO PET) --- */
-.form-container h1 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 2em;
-}
-
-/* --- Estilo dos Campos do Formulário --- */
-.form-container form p {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-container label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: #555;
-}
-
-.form-container input[type="text"],
-.form-container input[type="date"],
-.form-container input[type="number"],
-.form-container select,
-.form-container textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* --- Botão de Salvar/Cadastrar --- */
-.form-container button {
-    background-color: #555;
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
-}
-
-.form-container button:hover {
-    background-color: #333;
-}
-
-/* --- Link de "Voltar" --- */
-.back-link {
-    display: block;
-    margin-top: 25px;
-    text-decoration: none;
-    color: #555;
-    font-weight: 600;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-
-/* --- PÁGINA INICIAL / BOAS-VINDAS (CORRIGIDO) --- */
+/* --- PÁGINA INICIAL (HOME) --- */
+/* Mantém o seu design original SÓ para a home */
 .welcome-container {
     width: 100vw;
     height: 100vh;
@@ -99,45 +46,23 @@ body {
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; /* CORRIGIDO: Garante que o botão apareça */
+    justify-content: space-evenly;
     align-items: center;
     text-align: center;
     overflow: hidden;
+    padding: 20px;
+    margin: -20px; /* Remove o padding do body */
 }
-
 .welcome-text {
     font-weight: bold;
     line-height: 1.1;
     text-transform: uppercase;
-    /* A linha da margem foi removida */
 }
-
-.welcome-text .line1 {
-    font-size: clamp(3rem, 10vw, 6rem);
-}
-
-.welcome-text .line2 {
-    font-size: clamp(2rem, 7vw, 4rem);
-    margin: 1rem 0;
-}
-
-.line3-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.welcome-text .line3 {
-    font-size: clamp(4rem, 14vw, 8rem);
-}
-
-.welcome-text .star {
-    font-size: clamp(3rem, 9vw, 5rem);
-    color: #FFD700;
-    margin-left: 1rem;
-    padding-bottom: 1rem;
-}
-
+.welcome-text .line1 { font-size: clamp(3rem, 10vw, 6rem); }
+.welcome-text .line2 { font-size: clamp(2rem, 7vw, 4rem); margin: 1rem 0; }
+.line3-wrapper { display: flex; align-items: center; justify-content: center; }
+.welcome-text .line3 { font-size: clamp(4rem, 14vw, 8rem); }
+.welcome-text .star { font-size: clamp(3rem, 9vw, 5rem); color: #FFD700; margin-left: 1rem; padding-bottom: 1rem; }
 .start-button {
     background-color: white;
     color: #34D399;
@@ -150,32 +75,74 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
-
 .start-button:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 15px rgba(0,0,0,0.2);
 }
 
-
-/* --- PÁGINA DE LISTA DE PETS --- */
-.list-container {
-    background-color: #f0f0f0;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+/* --- Containers (Listas, Forms, etc.) --- */
+.list-container,
+.form-container,
+.overview-container {
+    background-color: var(--cor-container);
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
     width: 100%;
-    max-width: 700px;
+    max-width: 800px;
+    margin: 20px auto;
     text-align: center;
 }
-
-.list-container h1 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 2em;
+.form-container {
+    max-width: 550px;
+}
+.overview-container {
+    max-width: 900px;
 }
 
-/* NOVO: Container para alinhar os botões principais */
+/* --- Cabeçalho (Bem-vindo, Sair) --- */
+.user-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--cor-borda);
+    font-size: 0.95rem;
+}
+.user-info-header span {
+    font-weight: 500;
+    color: var(--cor-texto-secundario);
+}
+.user-info-header a {
+    font-weight: 600;
+    color: var(--cor-vermelho);
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+.user-info-header a:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    color: var(--cor-texto-principal);
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    font-weight: 700;
+}
+h2 {
+    text-align: left;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin: 30px 0 15px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+/* --- Botões Principais (Adicionar, Cadastrar) --- */
 .main-actions {
     display: flex;
     justify-content: center;
@@ -183,306 +150,300 @@ body {
     margin-bottom: 30px;
 }
 
-/* Botão verde para "Adicionar Novo Pet" */
-.add-pet-button {
-    display: inline-block;
-    background-color: #10B981;
-    color: white;
-    padding: 12px 25px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background-color 0.3s ease;
-}
-
-.add-pet-button:hover {
-    background-color: #059669;
-}
-
-/* NOVO: Estilo para o botão "Cadastrar Evento" */
+.add-pet-button,
 .add-event-button {
     display: inline-block;
-    padding: 12px 25px;
+    padding: 10px 22px;
     border-radius: 8px;
-    font-weight: 600;
     text-decoration: none;
-    background-color: transparent;
-    border: 2px solid #10B981;
-    color: #10B981;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+    border: 2px solid transparent;
 }
-
-.add-event-button:hover {
-    background-color: #10B981;
+.add-pet-button {
+    background-color: var(--cor-verde-principal);
     color: white;
+    border-color: var(--cor-verde-principal);
+}
+.add-pet-button:hover {
+    background-color: var(--cor-verde-hover);
+    border-color: var(--cor-verde-hover);
+    transform: translateY(-2px);
+}
+.add-event-button {
+    background-color: transparent;
+    border-color: var(--cor-verde-principal);
+    color: var(--cor-verde-principal);
+}
+.add-event-button:hover {
+    background-color: var(--cor-verde-principal);
+    color: white;
+    transform: translateY(-2px);
 }
 
-/* A área branca onde os pets são listados */
+/* --- Lista de Pets --- */
 .pet-list {
-    background-color: white;
-    border-radius: 10px;
-    padding: 10px 20px;
     text-align: left;
 }
-
 .pet-item {
     display: flex;
+    flex-wrap: wrap; /* Quebra em telas pequenas */
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #eee;
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--cor-borda);
 }
-
 .pet-list .pet-item:last-child {
     border-bottom: none;
 }
-
 .pet-item-empty {
     padding: 40px 0;
     text-align: center;
-    color: #888;
+    color: var(--cor-texto-secundario);
 }
-
+.pet-info {
+    margin-bottom: 10px;
+}
 .pet-info .pet-name {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 600;
-    color: #333;
+    color: var(--cor-texto-principal);
 }
-
 .pet-info .pet-species {
     display: block;
     font-size: 0.9rem;
-    color: #777;
-    margin-top: 4px;
+    color: var(--cor-texto-secundario);
+    margin-top: 2px;
 }
 
+/* ========================================= */
+/* <<< SUA CORREÇÃO: Botões Pequenos >>> */
+/* ========================================= */
 .pet-actions {
     display: flex;
-    gap: 10px;
+    gap: 6px; /* Espaço MÍNIMO entre os botões */
+    flex-wrap: wrap; /* Quebra a linha se for muito pequeno */
+    justify-content: flex-end; /* Alinha à direita */
 }
 
-.edit-btn, .delete-btn {
+.pet-actions .action-btn,
+.pet-actions .edit-btn,
+.pet-actions .delete-btn {
+    padding: 5px 10px; /* <<< BEM MENOR >>> */
+    font-size: 0.75rem; /* <<< BEM MENOR >>> */
+    font-weight: 500;
+    border-radius: 6px;
     color: white;
     text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: opacity 0.3s ease;
+    white-space: nowrap; /* Não quebra "Visão Geral" */
+    transition: all 0.2s ease;
+    border: none;
+}
+.pet-actions .action-btn:hover,
+.pet-actions .edit-btn:hover,
+.pet-actions .delete-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
 }
 
-.edit-btn:hover, .delete-btn:hover {
-    opacity: 0.8;
+/* Cores dos botões */
+.overview-btn { background-color: var(--cor-cinza-escuro); }
+.metas-btn { background-color: var(--cor-roxo); }
+.eventos-btn { background-color: var(--cor-azul); }
+.edit-btn { background-color: var(--cor-laranja); }
+.delete-btn { background-color: var(--cor-vermelho); }
+.action-btn[style*="#4CAF50"] { background-color: var(--cor-verde-principal) !important; }
+
+@media (min-width: 768px) {
+    .pet-item {
+        flex-wrap: nowrap; /* Em telas maiores, força a linha única */
+    }
+    .pet-info {
+        margin-bottom: 0;
+    }
 }
 
-.edit-btn {
-    background-color: #3B82F6; /* Azul */
+/* --- Formulários (Geral) --- */
+.manual-form {
+    text-align: left;
 }
-
-.delete-btn {
-    background-color: #EF4444; /* Vermelho */
+.manual-form p {
+    margin-bottom: 15px;
 }
-
-/* --- ESTILOS PARA SELEÇÃO DE PETS --- */
-.select-pet-form .pet-radio-list label {
+.manual-form label {
     display: block;
-    background-color: white;
-    padding: 15px 20px;
-    margin-bottom: 10px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+}
+.manual-form input[type="text"],
+.manual-form input[type="date"],
+.manual-form input[type="number"],
+.manual-form input[type="password"],
+.manual-form select,
+.manual-form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--cor-borda);
     border-radius: 8px;
-    border: 1px solid #ddd;
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--cor-texto-principal);
+}
+.manual-form input:focus,
+.manual-form select:focus,
+.manual-form textarea:focus {
+    outline: none;
+    border-color: var(--cor-verde-principal);
+    box-shadow: 0 0 0 3px var(--cor-verde-claro);
+}
+
+form button[type="submit"] {
+    background-color: var(--cor-verde-principal);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    width: 100%;
+}
+form button[type="submit"]:hover {
+    background-color: var(--cor-verde-hover);
 }
 
-.select-pet-form .pet-radio-list label:hover {
-    border-color: #34D399;
-    box-shadow: 0 0 5px rgba(52, 211, 153, 0.5);
+.back-link {
+    display: block;
+    margin-top: 25px;
+    text-decoration: none;
+    color: var(--cor-texto-secundario);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.back-link:hover {
+    text-decoration: underline;
+    color: var(--cor-verde-principal);
 }
 
-.select-pet-form .pet-radio-list input[type="radio"] {
-    margin-right: 15px;
-    transform: scale(1.5);
+/* --- Mensagens (Sucesso, Erro) --- */
+.messages {
+    padding: 0;
+    margin: -10px 0 25px 0;
+    list-style: none;
+    text-align: left;
 }
-/* --- PÁGINA DE CONFIRMAÇÃO DE EXCLUSÃO --- */
-
-.confirmation-text {
-    font-size: 1.1rem;
-    color: #555;
-    line-height: 1.6;
-    margin-top: -15px;
-    margin-bottom: 30px;
+.messages.standalone-messages {
+    text-align: center;
+}
+.message {
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    border: 1px solid transparent;
+}
+.message.success {
+    background-color: var(--cor-verde-claro);
+    border-color: var(--cor-verde-principal);
+    color: var(--cor-verde-hover);
+}
+.message.warning {
+    background-color: #FFFBEB;
+    border-color: var(--cor-laranja);
+    color: #B45309;
+}
+.message.error {
+    background-color: #FEF2F2;
+    border-color: var(--cor-vermelho);
+    color: var(--cor-vermelho-hover);
+}
+.message.info {
+    background-color: #EFF6FF;
+    border-color: var(--cor-azul);
+    color: #1E40AF;
 }
 
-/* Container para os botões de Sim/Não */
+/* --- Página de Deletar --- */
 .confirmation-actions {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Espaço entre os botões */
+    gap: 15px;
     margin-top: 20px;
 }
-
-/* Deixa o botão de exclusão principal maior e mais destacado */
 .delete-btn.primary {
-    padding: 12px 30px;
-    font-size: 1rem;
+    background-color: var(--cor-vermelho);
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    border: none;
 }
-
-/* Estilo para o botão "Cancelar" */
+.delete-btn.primary:hover {
+    background-color: var(--cor-vermelho-hover);
+}
 .cancel-btn {
     display: inline-block;
-    padding: 12px 30px;
-    font-size: 1rem;
+    padding: 10px 22px;
+    font-size: 0.95rem;
     font-weight: 600;
     text-decoration: none;
     background-color: transparent;
-    border: 2px solid #888; /* Borda cinza */
-    color: #555; /* Texto cinza escuro */
+    border: 2px solid var(--cor-borda);
+    color: var(--cor-texto-secundario);
     border-radius: 8px;
     transition: all 0.3s ease;
 }
-
 .cancel-btn:hover {
-    background-color: #888;
-    color: white;
+    background-color: var(--cor-fundo);
+    border-color: var(--cor-texto-secundario);
+    color: var(--cor-texto-principal);
 }
-/* --- ESTILOS PARA NOVAS FUNCIONALIDADES DE EVENTOS --- */
 
-/* Estilo para a linha inteira de um evento concluído */
+/* --- Estilos de Eventos (Concluído) --- */
 .pet-item.concluido .pet-info {
-    text-decoration: line-through; /* Risca o texto */
-    color: #999;
+    text-decoration: line-through;
+    opacity: 0.6;
 }
-
-.pet-item.concluido .pet-info .pet-name,
-.pet-item.concluido .pet-info .pet-species {
-    color: #999; /* Deixa o texto do nome e da espécie cinza */
-}
-
-/* Estilo para o marcador "(Concluído)" */
-.status-badge {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #10B981; /* Verde */
-    margin-left: 8px;
-    vertical-align: middle;
-}
-
-/* Estilo base para os novos botões de ação */
-.action-btn {
-    color: white;
-    text-decoration: none;
-    padding: 8px 15px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: opacity 0.3s ease;
-}
-
-.action-btn:hover {
-    opacity: 0.8;
-}
-
-/* Cor específica para o botão CONCLUIR */
 .concluir-btn {
-    background-color: #22C55E; /* Verde um pouco mais vivo */
+    background-color: var(--cor-verde-principal);
 }
 
-.messages {
-    padding: 0;
-    margin: -10px 0 20px 0;
-    list-style: none;
-}
-
-.message {
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-weight: 600;
-    color: white;
-}
-
-.message.success {
-    background-color: #22C55E; /* Verde sucesso */
-}
-
-.message.warning {
-    background-color: #F59E0B; /* Laranja aviso */
-}
-
-.message.error {
-    background-color: #EF4444; 
-}
-
-
-.eventos-btn {
-    background-color: #3B82F6; 
-}
-
-
-.pet-actions .edit-btn {
-    background-color: #F59E0B; 
-}
-
-/* --- ESTILOS PARA O QUADRO DE METAS --- */
-
-/* Estilo para o formulário de adicionar meta */
+/* --- Formulário de Metas e Lista de Compras --- */
 .meta-form {
-    background-color: #e0e0e0;
+    background-color: var(--cor-fundo);
     padding: 20px;
     border-radius: 10px;
     margin-bottom: 30px;
     text-align: left;
-}
-.meta-form h2 {
-    margin-top: 0;
-    color: #333;
-}
-.meta-form textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    box-sizing: border-box;
-    margin-bottom: 15px;
+    border: 1px solid var(--cor-borda);
 }
 .meta-form .form-row {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end;
 }
-.meta-form .form-row label {
-    font-weight: 600;
-    color: #555;
+.meta-form .form-group {
+    flex: 1 1 200px;
 }
-.meta-form .form-row button {
-    margin-left: auto; /* Empurra o botão para a direita */
+.meta-form label {
+    font-size: 0.85rem;
 }
-
-/* Cor específica para o botão METAS na lista de pets */
-.metas-btn {
-    background-color: #8B5CF6; /* Roxo */
+.meta-form input[type="text"],
+.meta-form input[type="date"] {
+    padding: 10px 14px;
 }
-/* --- ESTILOS PARA A PÁGINA DE VISÃO GERAL --- */
-.overview-container {
-    background-color: #f0f0f0;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 900px; /* Página mais larga */
-    text-align: center;
-}
-.overview-container h1 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 30px;
-    font-size: 2em;
+.meta-form .add-pet-button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    margin: 0;
+    flex-shrink: 0;
 }
 
-/* Stats */
+/* --- Visão Geral --- */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -490,82 +451,76 @@ body {
     margin-bottom: 40px;
 }
 .stat-card {
-    background-color: white;
+    background-color: var(--cor-container);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
 }
 .stat-card h3 {
-    margin: 0 0 10px 0;
-    color: #555;
-    font-size: 1rem;
+    margin: 0 0 5px 0;
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 .stat-card p {
     margin: 0;
-    font-size: 1.8em;
-    font-weight: 600;
-    color: #3B82F6;
+    font-size: 2.2em;
+    font-weight: 700;
+    color: var(--cor-verde-principal);
 }
 
-/* Seções */
 .overview-section {
-    background-color: white;
+    background-color: var(--cor-container);
     padding: 25px;
     border-radius: 10px;
     margin-bottom: 30px;
     text-align: left;
-}
-.overview-section h2 {
-    margin-top: 0;
-    padding-bottom: 15px;
-    border-bottom: 2px solid #eee;
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--cor-borda);
 }
 
-.list-items .pet-item {
-    border: none;
-    padding: 15px 0;
-}
-
-/* Estilo específico para item de meta */
 .meta-item {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     padding: 20px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--cor-borda);
 }
-.meta-item:last-child {
-    border-bottom: none;
-}
+.meta-item:last-child { border-bottom: none; }
+.meta-info { flex: 1 1 150px; }
 .meta-desc {
     font-weight: 600;
-    color: #333;
+    color: var(--cor-texto-principal);
     margin: 0 0 5px 0;
 }
 .meta-prazo {
     font-size: 0.9rem;
-    color: #777;
+    color: var(--cor-texto-secundario);
 }
 
-/* Formulário de progresso */
 .progress-form {
     display: flex;
     align-items: center;
-    gap: 15px;
-    min-width: 300px;
+    gap: 10px;
+    flex: 1 1 300px;
+    min-width: 250px;
 }
 .progress-form label {
     font-size: 0.9rem;
     white-space: nowrap;
+    margin: 0;
+    color: var(--cor-texto-secundario);
 }
 .progress-form input[type="range"] {
     width: 100%;
 }
 .progress-form button {
-    padding: 8px 15px;
-    font-size: 0.9rem;
-    background-color: #10B981;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    background-color: var(--cor-verde-principal);
     color: white;
     border: none;
     border-radius: 6px;
@@ -576,117 +531,18 @@ body {
     text-align: right;
     margin-top: 15px;
     font-weight: 600;
-    color: #3B82F6;
-}
-.messages.standalone-messages {
-    text-align: center;
-    padding: 0;
-}
-/* Cor do novo botão "Visão Geral" */
-.overview-btn {
-    background-color: #111827; /* Preto/Cinza Escuro */
-    color: white;
-}
-/* ==========================
-   ESTILOS DO PET SHOP
-   ========================== */
-
-/* Remove sublinhado dos links de botão */
-.action-btn, .add-pet-button, .add-event-button, .delete-btn, .edit-btn, .overview-btn, .metas-btn, .eventos-btn, .logout-button {
+    color: var(--cor-verde-principal);
     text-decoration: none;
 }
-
-/* Container de item da loja */
-.shop-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    margin-bottom: 15px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+.view-all-link:hover {
+    text-decoration: underline;
 }
 
-.shop-item-details {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+/* --- Lista de Compras (Pet Shop) --- */
+.item-comprado {
+    text-decoration: line-through;
+    opacity: 0.6;
 }
-
-.product-image-emoji {
-    font-size: 4rem; /* Tamanho grande para o emoji */
-    background-color: #f4f4f4;
-    padding: 15px;
-    border-radius: 10px;
-    line-height: 1; /* Alinha o emoji verticalmente */
-}
-
-.product-info {
-    text-align: left;
-}
-
-.product-info .pet-name { /* Reutilizando a classe .pet-name */
-    font-size: 1.4rem;
-    margin: 0;
-}
-.product-info .pet-species { /* Reutilizando a classe .pet-species */
-    font-size: 1.1rem;
-    color: #007bff;
-    font-weight: bold;
-    margin: 0;
-}
-.product-info p {
-    font-size: 0.9rem;
-    color: #555;
-    margin: 5px 0 0 0;
-}
-.product-info small {
-    font-size: 0.8rem;
-    color: #888;
-}
-
-.shop-item .pet-actions { /* Reutilizando .pet-actions */
-    min-width: 180px; /* Garante que o botão não quebre */
-    text-align: right;
-}
-
-/* Botão de Indisponível */
-.disabled-btn {
-    background-color: #aaa;
-    color: #fff;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 0.9rem;
-    cursor: not-allowed;
-}
-
-/* Total do Carrinho */
-.cart-total {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px solid #eee;
-    text-align: right;
-}
-
-.cart-total h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.cart-total .add-pet-button {
-    /* Faz o botão de finalizar compra ser maior */
-    font-size: 1.2rem;
-    padding: 15px 25px;
-}
-
-/* Mensagens standalone (para pet_list, shop_list, etc.) */
-.messages.standalone-messages {
-    margin-bottom: 20px;
-    padding: 0;
-    border: none;
+.item-comprado .pet-name {
+    color: var(--cor-texto-secundario);
 }

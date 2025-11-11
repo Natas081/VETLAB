@@ -8,20 +8,22 @@
     <title>Eventos de {{ pet.nome }}</title>
 </head>
 <body>
-
     <main class="list-container">
+
         <h1>Eventos de {{ pet.nome }}</h1>
 
         {% if messages %}
-            <div class="messages">
+            <div class="messages standalone-messages">
                 {% for message in messages %}
                     <div class="message {{ message.tags }}">{{ message }}</div>
                 {% endfor %}
             </div>
         {% endif %}
 
-        <a href="{% url 'evento_adicionar' pet.pk %}" class="add-pet-button">Adicionar Novo Evento</a>
-        
+        <div class="main-actions">
+            <a href="{% url 'evento_adicionar' pet.pk %}" class="add-pet-button">Adicionar Novo Evento</a>
+        </div>
+
         <div class="pet-list">
             {% for evento in eventos %}
                 <div class="pet-item {% if evento.concluido %}concluido{% endif %}">
@@ -34,23 +36,24 @@
                         </span>
                         <span class="pet-species">{{ evento.data|date:"d/m/Y" }} - {{ evento.observacoes|default:"Sem observações" }}</span>
                     </div>
+                    
                     <div class="pet-actions">
                         {% if not evento.concluido %}
                             <a href="{% url 'evento_concluir' evento.pk %}" class="action-btn concluir-btn">Concluir</a>
+                            <a href="{% url 'evento_edit' evento.pk %}" class="action-btn edit-btn">Editar</a>
                         {% endif %}
-                        <a href="{% url 'evento_edit' evento.pk %}" class="edit-btn">Editar</a>
-                        <a href="{% url 'evento_delete' evento.pk %}" class="delete-btn">Excluir</a>
+                        <a href="{% url 'evento_delete' evento.pk %}" class="action-btn delete-btn">Excluir</a>
                     </div>
                 </div>
             {% empty %}
                 <div class="pet-item-empty">
-                    <p>Não há eventos cadastrados.</p>
+                    <p>Nenhum evento cadastrado para este pet.</p>
                 </div>
             {% endfor %}
         </div>
-        
-        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
-    </main>
 
+        <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>
+
+    </main>
 </body>
 </html>
