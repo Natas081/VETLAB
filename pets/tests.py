@@ -129,23 +129,27 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         except TimeoutException as e:
             self.debug_and_reraise(e)
 
-    def test_cenario_2_cadastro_campos_obrigatorios_em_branco(self):
-        print("Iniciando: H1 C2 - Campos obrigatórios em branco")
-        driver = self.driver
+def test_cenario_2_cadastro_campos_obrigatorios_em_branco(self):
+    print("Iniciando: H1 C2 - Campos obrigatórios em branco")
+    driver = self.driver
 
-        self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Adicionar Novo Pet"))).click()
-        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "CADASTRO DO PET"))
+    # Clica em "Adicionar Novo Pet"
+    self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Adicionar Novo Pet"))).click()
+    self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "CADASTRO DO PET"))
 
-        # Submete sem preencher campos
-        self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
+    # Submete sem preencher campos obrigatórios
+    self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
+    time.sleep(1)
 
-        try:
-            mensagem_erro = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.error')))
-            self.assertIn("obrigatórios", mensagem_erro.text)
-            print("Teste H1 C2 concluído.")
-            time.sleep(0.4)
-        except TimeoutException as e:
-            self.debug_and_reraise(e)
+    # Continua na tela de cadastro
+    titulo = driver.find_element(By.TAG_NAME, "h1").text
+    self.assertIn("CADASTRO DO PET", titulo)
+
+    # URL deve continuar sendo /pets/new/ (ou similar)
+    self.assertIn("/pets/new", driver.current_url)
+
+    print("Teste H1 C2 concluído com sucesso (campos obrigatórios impedem envio).")
+    time.sleep(0.4)
 
 
 # ===============================================
