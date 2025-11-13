@@ -5,26 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'pets/style.css' %}">
-    <title>Cadastro - VetLab</title>
+    <title>Cadastro - VETLAB</title>
 </head>
 <body>
     <main class="form-container">
-        <h1>CRIE SUA CONTA</h1>
+        <h1>CADASTRO</h1>
+        
         {% if messages %}
-            <div class="messages">
+            <div class="messages standalone-messages">
                 {% for message in messages %}
                     <div class="message {{ message.tags }}">{{ message }}</div>
                 {% endfor %}
             </div>
         {% endif %}
+
         <form method="post">
             {% csrf_token %}
-            <p><label for="username">Nome de Usuário:</label><input type="text" name="username" id="username" required></p>
-            <p><label for="password">Senha:</label><input type="password" name="password" id="password" required></p>
-            <p><label for="password2">Confirme a Senha:</label><input type="password" name="password2" id="password2" required></p>
+            <div class="manual-form">
+                <p>
+                    <label for="id_username">Usuário:</label>
+                    <input type="text" name="username" id="id_username" required>
+                </p>
+                <p>
+                    <label for="id_password">Senha:</label>
+                    <input type="password" name="password" id="id_password" required>
+                </p>
+                <p>
+                    <label for="id_password2">Confirme a Senha:</label>
+                    <input type="password" name="password2" id="id_password2" required>
+                </p>
+            </div>
             <button type="submit">Cadastrar</button>
         </form>
-        <a class="back-link" href="{% url 'login' %}">Já tem uma conta? Faça login</a>
+
+        <a class="back-link" href="{% url 'login' %}">Já tem uma conta? Faça o login</a>
     </main>
 </body>
 </html>
