@@ -19,6 +19,7 @@
                 {% endfor %}
             </div>
         {% endif %}
+
         <form method="post">
             {% csrf_token %}
             <div class="manual-form">
@@ -27,24 +28,39 @@
                     <select name="tipo" id="id_tipo" required>
                         <option value="">--- Selecione ---</option>
                         {% for value, display_text in tipos_evento %}
-                            <option value="{{ value }}" 
-                                {% if values.tipo == value %}selected{% elif not values.tipo and evento.tipo == value %}selected{% endif %}>
-                                {{ display_text }}
-                            </option>
+                            {% if values.tipo == value %}
+                                <option value="{{ value }}" selected>{{ display_text }}</option>
+                            {% elif not values.tipo and evento and evento.tipo == value %}
+                                <option value="{{ value }}" selected>{{ display_text }}</option>
+                            {% else %}
+                                <option value="{{ value }}">{{ display_text }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </p>
+
                 <p>
                     <label for="id_data">Data do Evento:</label>
-                    <input type="date" name="data" id="id_data" value="{{ values.data|default:evento.data|date:'Y-m-d'|default:'' }}" required>
+                    {% if values.data %}
+                        <input type="date" name="data" id="id_data" value="{{ values.data }}" required>
+                    {% elif evento and evento.data %}
+                        <input type="date" name="data" id="id_data" value="{{ evento.data|date:'Y-m-d' }}" required>
+                    {% else %}
+                        <input type="date" name="data" id="id_data" value="" required>
+                    {% endif %}
                 </p>
+
                 <p>
                     <label for="id_observacoes">Observações (opcional):</label>
-                    <textarea name="observacoes" id="id_observacoes" rows="4">{{ values.observacoes|default:evento.observacoes|default:'' }}</textarea>
+                    <textarea name="observacoes" id="id_observacoes" rows="4">
+{% if values.observacoes %}{{ values.observacoes }}{% elif evento and evento.observacoes %}{{ evento.observacoes }}{% endif %}
+                    </textarea>
                 </p>
             </div>
+
             <button type="submit">{% if evento %}Salvar Alterações{% else %}Adicionar{% endif %}</button>
         </form>
+
         <a class="back-link" href="{% url 'evento_list' pet.pk %}">Voltar</a>
     </main>
 </body>
