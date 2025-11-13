@@ -4,7 +4,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Pet, Evento, Meta, ItemCompra 
-from decimal import Decimal, InvalidOperation # <<< IMPORTAÇÃO CRÍTICA >>>
+from decimal import Decimal, InvalidOperation 
+from datetime import date # <<< IMPORTAÇÃO CRÍTICA PARA A IDADE >>>
 
 # Imports para o sistema de Login
 from django.contrib.auth.models import User
@@ -81,13 +82,6 @@ def pet_list(request):
 
 @login_required
 def pet_create(request):
-    """
-    Cria um novo Pet. Compatível com o pet_form.html que envia:
-    nome, especie, raca, data_nascimento, peso
-    - Garante que 'values' no contexto seja sempre um dict (evita erros no template)
-    - Valida campos obrigatórios e peso (Decimal > 0)
-    - Retorna mensagens amigáveis em caso de erro
-    """
     if request.method == 'POST':
         nome = request.POST.get('nome')
         especie = request.POST.get('especie')
@@ -95,46 +89,40 @@ def pet_create(request):
         data_nascimento = request.POST.get('data_nascimento')
         peso = request.POST.get('peso')
 
-        # Valores para reexibir no formulário em caso de erro
         context_values = {
             'nome': nome, 'especie': especie, 'raca': raca,
             'data_nascimento': data_nascimento, 'peso': peso
         }
 
-        # Validação básica dos campos obrigatórios
         if not nome or not especie or not data_nascimento or not peso:
             messages.error(request, "Os campos Nome, Espécie, Data de Nascimento e Peso são obrigatórios.")
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
-
-        # Valida e converte peso para Decimal
+        
         try:
-            peso_decimal = Decimal(peso)
+            peso_decimal = Decimal(peso) 
             if peso_decimal <= 0:
                 messages.error(request, "O peso deve ser um valor positivo.")
                 return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
-        except (InvalidOperation, TypeError, ValueError):
+        except (InvalidOperation, TypeError, ValueError): 
             messages.error(request, "O valor do peso é inválido.")
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
 
-        # Tenta criar o Pet (try/except para evitar 500 nem que algo inesperado aconteça)
         try:
             Pet.objects.create(
                 tutor=request.user,
                 nome=nome,
                 especie=especie,
-                raca=raca or None,
+                raca=raca or None, # Converte '' para None
                 data_nascimento=data_nascimento,
                 peso=peso_decimal
             )
             messages.success(request, f"Pet '{nome}' adicionado com sucesso!")
             return redirect('pet_list')
         except Exception:
-            # log completo no servidor para diagnóstico (o teste também imprime isso)
             traceback.print_exc()
             messages.error(request, "Ocorreu um erro ao salvar o pet. Verifique os logs.")
             return render(request, 'pets/pet_form.html', {'values': context_values, 'pet': None})
 
-    # GET — formulário vazio (sempre envia dicts)
     return render(request, 'pets/pet_form.html', {'values': {}, 'pet': None})
 
 @login_required
@@ -166,11 +154,10 @@ def pet_edit(request, pk):
             messages.error(request, "O valor do peso é inválido.")
             return render(request, 'pets/pet_form.html', {'pet': pet, 'values': context_values})
 
-        # Salva em try/except para evitar 500
         try:
             pet.nome = nome
             pet.especie = especie
-            pet.raca = raca
+            pet.raca = raca or None # <<< CORREÇÃO DO BUG 500 ESTÁ AQUI
             pet.data_nascimento = data_nascimento
             pet.peso = peso_decimal
             pet.save()
@@ -193,33 +180,54 @@ def pet_edit(request, pk):
 
 @login_required
 def pet_delete(request, pk):
-    # ... (seu código aqui) ...
     pet = get_object_or_404(Pet, pk=pk, tutor=request.user)
     if request.method == 'POST':
         nome_pet_deletado = pet.nome
         pet.delete()
-        messages.success(request, "Pet removido com sucesso.")
+        messages.success(request, f"Pet '{nome_pet_deletado}' removido com sucesso.")
         return redirect('pet_list')
     return render(request, 'pets/pet_confirm_delete.html', {'pet': pet})
 
 
 @login_required
 def pet_visao_geral(request, pk):
-    # ... (seu código aqui) ...
     pet = get_object_or_404(Pet, pk=pk, tutor=request.user)
+    
+    # <<< CORREÇÃO DO BUG DA VISÃO GERAL >>>
+    
+    # 1. Cálculo da Idade
+    idade = None
+    if pet.data_nascimento:
+        hoje = date.today()
+        idade = hoje.year - pet.data_nascimento.year - ((hoje.month, hoje.day) < (pet.data_nascimento.month, pet.data_nascimento.day))
+    
+    # 2. Contagem de Eventos
+    total_eventos = pet.eventos.count()
+    
+    # 3. Contagem de Metas Concluídas
+    metas_concluidas = pet.metas.filter(progresso=100).count()
+    
+    # Próximos 5 eventos e metas em andamento (como já estava)
     eventos = pet.eventos.all().order_by('-data')[:5]
     metas = pet.metas.all().order_by('progresso', 'data_prazo')
+    
     context = {
-        'pet': pet, 'eventos': eventos, 'metas': metas,
+        'pet': pet, 
+        'eventos': eventos, 
+        'metas': metas,
+        'idade': idade, # <-- Envia a idade para o template
+        'total_eventos': total_eventos, # <-- Envia o total
+        'metas_concluidas': metas_concluidas, # <-- Envia o total
     }
+    
     if not eventos and not metas:
         messages.info(request, 'Esse pet ainda não possui registros de eventos ou metas.')
+        
     return render(request, 'pets/pet_visao_geral.html', context)
 
 
 @login_required
 def evento_selecionar_pet(request):
-    # ... (seu código aqui) ...
     pets = Pet.objects.filter(tutor=request.user)
     if not pets.exists():
         messages.info(request, "Não há pets cadastrados. Cadastre um pet antes de adicionar um evento.")
@@ -242,7 +250,6 @@ def evento_selecionar_pet(request):
 
 @login_required
 def evento_list(request, pet_pk):
-    # ... (seu código aqui) ...
     pet = get_object_or_404(Pet, pk=pet_pk, tutor=request.user)
     eventos = Evento.objects.filter(pet=pet).order_by('-data')
     return render(request, 'pets/evento_list.html', {'pet': pet, 'eventos': eventos})
@@ -262,7 +269,7 @@ def evento_adicionar(request, pet_pk):
                 'pet': pet, 
                 'tipos_evento': Evento.TIPOS_EVENTO, 
                 'values': request.POST, 
-                'evento': None # Envia 'None' em caso de erro
+                'evento': None 
             }
             return render(request, 'pets/evento_adicionar.html', context)
         
@@ -276,33 +283,35 @@ def evento_adicionar(request, pet_pk):
         messages.success(request, "Evento adicionado!")
         return redirect('evento_list', pet_pk=pet.pk)
 
-    # <<< CORREÇÃO PRINCIPAL DO BUG >>>
-    # Envia 'evento': None quando a página é carregada (GET)
     context = {
         'pet': pet, 
         'tipos_evento': Evento.TIPOS_EVENTO, 
         'values': {}, 
-        'evento': None # 'evento' agora existe como None
+        'evento': None 
     }
     return render(request, 'pets/evento_adicionar.html', context)
 
 
 @login_required
 def evento_edit(request, pk):
-    # ... (seu código aqui) ...
     evento = get_object_or_404(Evento, pk=pk, pet__tutor=request.user)
     if request.method == 'POST':
         tipo = request.POST.get('tipo')
         data = request.POST.get('data')
+        observacoes = request.POST.get('observacoes')
 
         if not tipo or not data:
             messages.error(request, "Os campos Tipo de Evento e Data são obrigatórios.")
             context = {'pet': evento.pet, 'evento': evento, 'tipos_evento': Evento.TIPOS_EVENTO, 'values': request.POST}
             return render(request, 'pets/evento_adicionar.html', context)
+        
+        # <<< CORREÇÃO DO BUG 500 ESTÁ AQUI >>>
+        if not observacoes:
+            observacoes = None
 
         evento.tipo = tipo
         evento.data = data
-        evento.observacoes = request.POST.get('observacoes')
+        evento.observacoes = observacoes # <-- Salva None
         evento.save()
         messages.success(request, "Evento atualizado com sucesso!")
         return redirect('evento_list', pet_pk=evento.pet.pk)
@@ -313,19 +322,17 @@ def evento_edit(request, pk):
 
 @login_required
 def evento_delete(request, pk):
-    # ... (seu código aqui) ...
     evento = get_object_or_404(Evento, pk=pk, pet__tutor=request.user)
     pet = evento.pet
     if request.method == 'POST':
         evento.delete()
-        messages.success(request, "Evento removido com sucesso.")
+        messages.success(request, f"Evento '{evento.get_tipo_display()}' removido com sucesso.")
         return redirect('evento_list', pet_pk=pet.pk)
     return render(request, 'pets/evento_confirm_delete.html', {'evento': evento, 'pet': pet})
 
 
 @login_required
 def evento_concluir(request, pk):
-    # ... (seu código aqui) ...
     evento = get_object_or_404(Evento, pk=pk, pet__tutor=request.user)
     if hasattr(evento, 'concluido') and isinstance(evento.concluido, bool):
         if evento.concluido:
@@ -342,7 +349,6 @@ def evento_concluir(request, pk):
 
 @login_required
 def meta_list(request, pet_pk):
-    # ... (seu código aqui) ...
     pet = get_object_or_404(Pet, pk=pet_pk, tutor=request.user)
     if request.method == 'POST':
         descricao = request.POST.get('descricao')
@@ -363,7 +369,6 @@ def meta_list(request, pet_pk):
 
 @login_required
 def meta_atualizar_progresso(request, pk):
-    # ... (seu código aqui) ...
     meta = get_object_or_404(Meta, pk=pk, pet__tutor=request.user)
     if request.method == 'POST':
         try:
@@ -376,12 +381,13 @@ def meta_atualizar_progresso(request, pk):
                 messages.error(request, 'O progresso deve ser entre 0 e 100.')
         except (ValueError, TypeError):
             messages.error(request, 'Valor de progresso inválido.')
+    
+    # Redireciona de volta para a Visão Geral
     return redirect('pet_visao_geral', pk=meta.pet.pk)
 
 
 @login_required
 def shop_list_view(request, pet_pk):
-    # ... (seu código aqui) ...
     pet = get_object_or_404(Pet, pk=pet_pk, tutor=request.user)
     
     if request.method == 'POST':
@@ -406,7 +412,6 @@ def shop_list_view(request, pet_pk):
 
 @login_required
 def shop_item_marcar(request, pk):
-    # ... (seu código aqui) ...
     item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
     
     item.comprado = not item.comprado
@@ -422,7 +427,6 @@ def shop_item_marcar(request, pk):
 
 @login_required
 def shop_item_remover(request, pk):
-    # ... (seu código aqui) ...
     item = get_object_or_404(ItemCompra, pk=pk, pet__tutor=request.user)
     descricao_item = item.descricao
     

@@ -22,22 +22,21 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <h3>Idade</h3>
-                <p>{{ pet.calcular_idade }}</p>
+                <p>{{ idade|default:"N/A" }}</p>
             </div>
             <div class="stat-card">
-                <h3>Peso</h3>
+                <h3>Peso Atual</h3>
                 <p>{{ pet.peso }} kg</p>
             </div>
             <div class="stat-card">
                 <h3>Total de Eventos</h3>
-                <p>{{ total_eventos }}</p>
+                <p>{{ total_eventos|default:0 }}</p>
             </div>
             <div class="stat-card">
                 <h3>Metas Concluídas</h3>
-                <p>{{ metas_concluidas }}</p>
+                <p>{{ metas_concluidas|default:0 }}</p>
             </div>
         </div>
-
         <div class="overview-section">
             <h2>Metas em Andamento</h2>
             <div class="list-items">
@@ -47,18 +46,19 @@
                             <p class="meta-desc">{{ meta.descricao }}</p>
                             <span class="meta-prazo">Prazo: {{ meta.data_prazo|date:"d/m/Y" }}</span>
                         </div>
+                        
                         <form class="progress-form" method="post" action="{% url 'meta_atualizar_progresso' meta.pk %}">
                             {% csrf_token %}
-                            <label for="progresso-{{ meta.pk }}">Progresso: <span id="progresso-valor-{{ meta.pk }}">{{ meta.progresso }}</span>%</label>
-                            <input type="range" id="progresso-{{ meta.pk }}" name="progresso" min="0" max="100" value="{{ meta.progresso }}"
-                                oninput="document.getElementById('progresso-valor-{{ meta.pk }}').textContent = this.value">
-                            <button type="submit">Atualizar</button>
+                            <label for="progresso-{{ meta.pk }}">Progresso: {{ meta.progresso }}%</label>
+                            <input type="range" id="progresso-{{ meta.pk }}" name="progresso" min="0" max="100" value="{{ meta.progresso }}">
+                            <button type="submit">Salvar</button>
                         </form>
                     </div>
                 {% empty %}
-                    <p>Nenhuma meta cadastrada para este pet.</p>
+                    <p class="pet-item-empty">Nenhuma meta em andamento.</p>
                 {% endfor %}
             </div>
+            <a href="{% url 'meta_list' pet.pk %}" class="view-all-link">Ver todas as metas</a>
         </div>
 
         <div class="overview-section">
@@ -67,15 +67,20 @@
                 {% for evento in eventos %}
                     <div class="pet-item {% if evento.concluido %}concluido{% endif %}">
                         <div class="pet-info">
-                            <span class="pet-name">{{ evento.get_tipo_display }} {% if evento.concluido %}<span class="status-badge">(Concluído)</span>{% endif %}</span>
-                            <span class="pet-species">{{ evento.data|date:"d/m/Y" }}</span>
+                            <span class="pet-name">
+                                {{ evento.get_tipo_display }}
+                                {% if evento.concluido %}
+                                    <span class="status-badge">(Concluído)</span>
+                                {% endif %}
+                            </span>
+                            <span class="pet-species">{{ evento.data|date:"d/m/Y" }} - {{ evento.observacoes|default:"Sem observações" }}</span>
                         </div>
                     </div>
                 {% empty %}
-                    <p>Nenhum evento registrado para este pet.</p>
+                    <p class="pet-item-empty">Nenhum evento registrado recentemente.</p>
                 {% endfor %}
-                 <a href="{% url 'evento_list' pet.pk %}" class="view-all-link">Ver todos os eventos...</a>
             </div>
+            <a href="{% url 'evento_list' pet.pk %}" class="view-all-link">Ver todos os eventos</a>
         </div>
 
         <a class="back-link" href="{% url 'pet_list' %}">Voltar para a lista de pets</a>

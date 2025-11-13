@@ -1,5 +1,3 @@
-# tests.py (substitua inteiramente pelo conteúdo abaixo)
-
 import os
 import time
 from datetime import date
@@ -69,10 +67,7 @@ class BaseE2ETestCase(StaticLiveServerTestCase):
     def set_date_by_js(self, element, yyyy_mm_dd):
         """
         Define value do input type=date via JS para evitar problemas de locale/keyboard.
-        element: WebElement (ou localizador encontrado)
-        yyyy_mm_dd: string 'YYYY-MM-DD'
         """
-        # assegura que o elemento está visível/presente
         self.driver.execute_script("arguments[0].value = arguments[1]; arguments[0].dispatchEvent(new Event('input')); arguments[0].dispatchEvent(new Event('change'));", element, yyyy_mm_dd)
 
     def debug_and_reraise(self, exc):
@@ -110,11 +105,10 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         driver.find_element(By.ID, "id_nome").send_keys("Bolinha")
         driver.find_element(By.ID, "id_especie").send_keys("Gato")
 
-        # Usa JS para setar a data corretamente
         data_input = driver.find_element(By.ID, "id_data_nascimento")
         self.set_date_by_js(data_input, "2021-08-01")
 
-        driver.find_element(By.ID, "id_peso").send_keys("5.1")
+        driver.find_element(By.ID, "id_peso").send_keys("5.1") # O 'views.py' converte para 5.10
         time.sleep(0.3)
 
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
@@ -129,27 +123,22 @@ class TesteHistoria1CadastroPet(BaseE2ETestCase):
         except TimeoutException as e:
             self.debug_and_reraise(e)
 
-def test_cenario_2_cadastro_campos_obrigatorios_em_branco(self):
-    print("Iniciando: H1 C2 - Campos obrigatórios em branco")
-    driver = self.driver
+    def test_cenario_2_cadastro_campos_obrigatorios_em_branco(self):
+        print("Iniciando: H1 C2 - Campos obrigatórios em branco")
+        driver = self.driver
 
-    # Clica em "Adicionar Novo Pet"
-    self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Adicionar Novo Pet"))).click()
-    self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "CADASTRO DO PET"))
+        self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Adicionar Novo Pet"))).click()
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "CADASTRO DO PET"))
 
-    # Submete sem preencher campos obrigatórios
-    self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
-    time.sleep(1)
+        self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button[type='submit']"))).click()
+        time.sleep(1)
 
-    # Continua na tela de cadastro
-    titulo = driver.find_element(By.TAG_NAME, "h1").text
-    self.assertIn("CADASTRO DO PET", titulo)
+        titulo = driver.find_element(By.TAG_NAME, "h1").text
+        self.assertIn("CADASTRO DO PET", titulo)
+        self.assertIn("/pets/new", driver.current_url)
 
-    # URL deve continuar sendo /pets/new/ (ou similar)
-    self.assertIn("/pets/new", driver.current_url)
-
-    print("Teste H1 C2 concluído com sucesso (campos obrigatórios impedem envio).")
-    time.sleep(0.4)
+        print("Teste H1 C2 concluído com sucesso (campos obrigatórios impedem envio).")
+        time.sleep(0.4)
 
 
 # ===============================================
@@ -159,7 +148,6 @@ class TesteHistoria2GerenciarPets(BaseE2ETestCase):
 
     def setUp(self):
         super().setUp()
-        # Cria pet direto no DB para edição/exclusão
         self.pet = Pet.objects.create(
             tutor=self.user, nome="PetGerencia", especie="Coelho",
             data_nascimento=date(2023, 5, 1), peso=1.8
@@ -171,9 +159,7 @@ class TesteHistoria2GerenciarPets(BaseE2ETestCase):
         driver = self.driver
 
         driver.get(f'{self.live_server_url}/pets/')
-        # Localiza o container do pet
         pet_item = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//span[text()='{self.pet.nome}']/ancestor::div[contains(@class,'pet-item')]")))
-        # Clica no link Editar dentro do item
         edit_link = pet_item.find_element(By.LINK_TEXT, "Editar")
         self.wait.until(EC.element_to_be_clickable(edit_link)).click()
 
@@ -205,15 +191,18 @@ class TesteHistoria2GerenciarPets(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable(delete_link)).click()
 
         self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "TEM CERTEZA?"))
-        # clica no botão confirmar
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "button.delete-btn.primary"))).click()
 
         try:
             self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "LISTA DE PETS"))
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("removido", mensagem_sucesso.text)
-            # garante que o pet não está mais no body
-            self.assertNotIn(self.pet.nome, driver.find_element(By.TAG_NAME, 'body').text)
+            
+            # <<< CORREÇÃO DO BUG 2 >>>
+            # Verifica se o pet não está mais na LISTA, ignora a mensagem de sucesso
+            lista_de_pets = driver.find_element(By.CLASS_NAME, 'pet-list').text
+            self.assertNotIn(self.pet.nome, lista_de_pets)
+            
             print("Teste H2 C5 concluído.")
             time.sleep(0.6)
         except TimeoutException as e:
@@ -244,9 +233,7 @@ class TesteHistoria3CadastroEvento(BaseE2ETestCase):
         self.wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Adicionar Novo Evento"))).click()
         self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), "ADICIONAR EVENTO"))
 
-        # seleciona tipo
         Select(self.wait.until(EC.presence_of_element_located((By.NAME, "tipo")))).select_by_value("consulta")
-        # seta data via JS (formato YYYY-MM-DD)
         data_input = driver.find_element(By.NAME, "data")
         self.set_date_by_js(data_input, "2025-11-20")
 
@@ -258,7 +245,6 @@ class TesteHistoria3CadastroEvento(BaseE2ETestCase):
             self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Eventos de {self.pet.nome}"))
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("Evento adicionado", mensagem_sucesso.text)
-            # verifica se observação aparece
             self.assertIn("Checkup anual", driver.find_element(By.CLASS_NAME, 'pet-list').text)
             print("Teste H3 C1 concluído.")
             time.sleep(0.6)
@@ -284,7 +270,6 @@ class TesteHistoria4ConclusaoEvento(BaseE2ETestCase):
         driver.get(f'{self.live_server_url}/pets/{self.pet.pk}/eventos/')
         self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Eventos de {self.pet.nome}"))
 
-        # acha o evento com a descrição
         evento_item = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'pet-item') and contains(., 'Remédio X')]")))
         concluir_link = evento_item.find_element(By.LINK_TEXT, "Concluir")
         self.wait.until(EC.element_to_be_clickable(concluir_link)).click()
@@ -294,7 +279,6 @@ class TesteHistoria4ConclusaoEvento(BaseE2ETestCase):
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("concluído", mensagem_sucesso.text)
 
-            # evento deve agora ter a classe 'concluido' no DOM
             evento_item_atualizado = self.wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'pet-item') and contains(@class, 'concluido')]")))
             self.assertIn("Concluído", evento_item_atualizado.text)
             print("Teste H4 C1 concluído.")
@@ -318,21 +302,17 @@ class TesteHistoria5CadastroMeta(BaseE2ETestCase):
         driver = self.driver
 
         driver.get(f'{self.live_server_url}/pets/{self.pet.pk}/metas/')
-        # Aguarda H1 que o template mostra (pode variar entre "Quadro de Metas..." ou "Metas para ...")
-        self.wait.until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Metas de {self.pet.nome}"))
 
-        # Preenche e seta a data via JS
         driver.find_element(By.NAME, "descricao").send_keys("Manter a caixa de areia limpa")
         data_input = driver.find_element(By.NAME, "data_prazo")
         self.set_date_by_js(data_input, "2026-03-01")
         time.sleep(0.3)
 
-        # botão de submit dentro do form.meta-form
         self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "form.meta-form button[type='submit']"))).click()
 
         try:
-            # Aguarda voltar para a mesma página e mensagem
-            self.wait.until(EC.presence_of_element_located((By.TAG_NAME, 'h1')))
+            self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Metas de {self.pet.nome}"))
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("Meta adicionada", mensagem_sucesso.text)
             self.assertIn("Manter a caixa de areia limpa", driver.find_element(By.CLASS_NAME, 'pet-list').text)
@@ -367,7 +347,6 @@ class TesteHistoria8ListaDeCompras(BaseE2ETestCase):
             self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Lista de Compras"))
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("adicionado", mensagem_sucesso.text)
-            # valida se o item aparece na seção A Comprar
             textos_a_comprar = driver.find_element(By.XPATH, "//h2[text()='A Comprar']/following-sibling::div").text
             self.assertIn("Ração Nova 10kg", textos_a_comprar)
             print("Teste H8 C1 concluído.")
@@ -381,20 +360,138 @@ class TesteHistoria8ListaDeCompras(BaseE2ETestCase):
         item = ItemCompra.objects.create(pet=self.pet, descricao="Item para comprar")
 
         driver.get(f'{self.live_server_url}/pets/{self.pet.pk}/compras/')
-        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Lista de Compras"))
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Lista de Compras de {self.pet.nome}"))
 
         item_div = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//span[contains(text(), '{item.descricao}')]/ancestor::div[contains(@class,'pet-item')]")))
         marcar_link = item_div.find_element(By.LINK_TEXT, "Marcar Comprado")
         self.wait.until(EC.element_to_be_clickable(marcar_link)).click()
 
         try:
-            self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Lista de Compras"))
+            # <<< CORREÇÃO DO BUG 1 (Typo) >>>
+            # Procura "Compras" e não "Comas"
+            self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Lista de Compras de {self.pet.nome}"))
+            
             mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
             self.assertIn("comprado", mensagem_sucesso.text)
-            # verifica se foi movido para "Comprados"
+            
             lista_comprados = driver.find_element(By.XPATH, "//h2[text()='Comprados']/following-sibling::div").text
             self.assertIn(item.descricao, lista_comprados)
             print("Teste H8 C2 concluído.")
             time.sleep(0.6)
+        except TimeoutException as e:
+            self.debug_and_reraise(e)
+
+# ===============================================
+# (NOVO) HISTÓRIA: VISÃO GERAL
+# ===============================================
+class TesteHistoriaVisaoGeral(BaseE2ETestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.pet = Pet.objects.create(
+            tutor=self.user, 
+            nome="PetVisaoGeral", 
+            especie="Tartaruga", 
+            data_nascimento=date(2020, 1, 1), 
+            peso=2.5 # Salva como 2.5, o models.py o trata como 2.50
+        )
+        self.evento1 = Evento.objects.create(
+            pet=self.pet, 
+            tipo="consulta", 
+            data=date(2024, 10, 10),
+            observacoes="Checkup"
+        )
+        self.meta_nao_concluida = Meta.objects.create(
+            pet=self.pet, 
+            descricao="Comprar novo filtro de água", 
+            data_prazo=date(2025, 12, 31),
+            progresso=50
+        )
+        self.meta_concluida = Meta.objects.create(
+            pet=self.pet, 
+            descricao="Limpar o casco", 
+            data_prazo=date(2024, 1, 1),
+            progresso=100
+        )
+        print(f"Pet '{self.pet.nome}' e seus dados (1 evento, 2 metas) criados no banco.")
+
+    def test_cenario_1_navegacao_e_stats(self):
+        print("Iniciando: VG C1 - Navegação e verificação de stats e listas")
+        driver = self.driver
+        
+        driver.get(f'{self.live_server_url}/pets/')
+        pet_item = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//span[text()='{self.pet.nome}']/ancestor::div[contains(@class,'pet-item')]")))
+        visao_geral_link = pet_item.find_element(By.LINK_TEXT, "Visão Geral")
+        self.wait.until(EC.element_to_be_clickable(visao_geral_link)).click()
+
+        try:
+            self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Visão Geral: {self.pet.nome}"))
+            print("Página de Visão Geral carregada.")
+            
+            idade_esperada = str(date.today().year - 2020)
+            
+            card_idade_val = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h3[text()='Idade']/following-sibling::p"))).text
+            self.assertEqual(card_idade_val, idade_esperada)
+            
+            # <<< CORREÇÃO DO BUG 3 (Decimal) >>>
+            # O modelo define 2 casas decimais, então o template mostra "2.50 kg"
+            card_peso_val = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h3[text()='Peso Atual']/following-sibling::p"))).text
+            self.assertEqual(card_peso_val, "2.50 kg")
+            
+            card_eventos_val = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h3[text()='Total de Eventos']/following-sibling::p"))).text
+            self.assertEqual(card_eventos_val, "1")
+            
+            card_metas_val = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h3[text()='Metas Concluídas']/following-sibling::p"))).text
+            self.assertEqual(card_metas_val, "1")
+
+            print("Stats (Idade, Peso, Eventos, Metas) verificados com sucesso.")
+            
+            overview_section_metas = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h2[text()='Metas em Andamento']/following-sibling::div")))
+            self.assertIn("Comprar novo filtro de água", overview_section_metas.text)
+            self.assertNotIn("Limpar o casco", overview_section_metas.text)
+
+            overview_section_eventos = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h2[text()='Últimos Eventos Registrados']/following-sibling::div")))
+            self.assertIn("Checkup", overview_section_eventos.text)
+
+            print("Listas de metas e eventos verificadas.")
+            print("Teste VG C1 concluído.")
+            time.sleep(0.6)
+        
+        except TimeoutException as e:
+            self.debug_and_reraise(e)
+
+    def test_cenario_2_atualizar_progresso_meta(self):
+        print("Iniciando: VG C2 - Atualizar progresso de meta pela Visão Geral")
+        driver = self.driver
+        
+        driver.get(f'{self.live_server_url}/pets/{self.pet.pk}/visao-geral/')
+        self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Visão Geral: {self.pet.nome}"))
+        
+        print(f"Localizando meta '{self.meta_nao_concluida.descricao}'...")
+        meta_item = self.wait.until(EC.presence_of_element_located((By.XPATH, f"//p[contains(text(), '{self.meta_nao_concluida.descricao}')]/ancestor::div[contains(@class,'meta-item')]")))
+        
+        range_input = meta_item.find_element(By.CSS_SELECTOR, "input[type='range']")
+        submit_button = meta_item.find_element(By.CSS_SELECTOR, "button[type='submit']")
+        
+        print("Atualizando progresso para 100% via JS...")
+        self.driver.execute_script("arguments[0].value = arguments[1];", range_input, 100)
+        time.sleep(0.5)
+        submit_button.click()
+
+        try:
+            self.wait.until(EC.text_to_be_present_in_element((By.TAG_NAME, 'h1'), f"Visão Geral: {self.pet.nome}"))
+            print("Página recarregada. Verificando mensagem...")
+            
+            mensagem_sucesso = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.messages .message.success')))
+            self.assertIn("Progresso da meta atualizado!", mensagem_sucesso.text)
+            print("Mensagem de sucesso encontrada.")
+
+            card_metas_val = self.wait.until(EC.presence_of_element_located((By.XPATH, "//h3[text()='Metas Concluídas']/following-sibling::p"))).text
+            self.assertEqual(card_metas_val, "2")
+            print("Stats de metas concluídas foi atualizado para 2.")
+            
+            print("Teste VG C2 concluído.")
+            time.sleep(0.6)
+        
         except TimeoutException as e:
             self.debug_and_reraise(e)
