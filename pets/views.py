@@ -193,34 +193,32 @@ def pet_delete(request, pk):
 def pet_visao_geral(request, pk):
     pet = get_object_or_404(Pet, pk=pk, tutor=request.user)
     
-    # <<< CORREÇÃO DO BUG DA VISÃO GERAL >>>
-    
-    # 1. Cálculo da Idade
+    # --- Cálculos dos Stats ---
     idade = None
     if pet.data_nascimento:
         hoje = date.today()
         idade = hoje.year - pet.data_nascimento.year - ((hoje.month, hoje.day) < (pet.data_nascimento.month, pet.data_nascimento.day))
     
-    # 2. Contagem de Eventos
     total_eventos = pet.eventos.count()
-    
-    # 3. Contagem de Metas Concluídas
     metas_concluidas = pet.metas.filter(progresso=100).count()
     
-    # Próximos 5 eventos e metas em andamento (como já estava)
+    # --- Listas ---
     eventos = pet.eventos.all().order_by('-data')[:5]
-    metas = pet.metas.all().order_by('progresso', 'data_prazo')
+    
+    # <<< CORREÇÃO DO BUG 2 (FAIL) >>>
+    # Filtra para mostrar apenas metas em andamento (progresso < 100)
+    metas_em_andamento = pet.metas.filter(progresso__lt=100).order_by('progresso', 'data_prazo')
     
     context = {
         'pet': pet, 
         'eventos': eventos, 
-        'metas': metas,
-        'idade': idade, # <-- Envia a idade para o template
-        'total_eventos': total_eventos, # <-- Envia o total
-        'metas_concluidas': metas_concluidas, # <-- Envia o total
+        'metas': metas_em_andamento, # <-- Usa a lista filtrada
+        'idade': idade, 
+        'total_eventos': total_eventos, 
+        'metas_concluidas': metas_concluidas, 
     }
     
-    if not eventos and not metas:
+    if not eventos and not metas_em_andamento:
         messages.info(request, 'Esse pet ainda não possui registros de eventos ou metas.')
         
     return render(request, 'pets/pet_visao_geral.html', context)
