@@ -27,6 +27,9 @@ urlpatterns = [
     # --- ROTAS DE METAS ---
     path('<int:pet_pk>/metas/', views.meta_list, name='meta_list'),
     path('metas/<int:pk>/atualizar-progresso/', views.meta_atualizar_progresso, name='meta_atualizar_progresso'),
+    path('metas/<int:pk>/remover/', views.meta_remover, name='meta_remover'),
+
+
 
     # --- ROTAS DA LISTA DE COMPRAS ---
     path('<int:pet_pk>/compras/', views.shop_list_view, name='shop_list'),

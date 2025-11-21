@@ -368,20 +368,42 @@ def meta_list(request, pet_pk):
 @login_required
 def meta_atualizar_progresso(request, pk):
     meta = get_object_or_404(Meta, pk=pk, pet__tutor=request.user)
+
     if request.method == 'POST':
         try:
             progresso = int(request.POST.get('progresso', 0))
-            if 0 <= progresso <= 100:
+
+            # ❗ Bloqueia valor 0%
+            if progresso == 0:
+                messages.error(request, 'O progresso não pode ser 0%. Defina um valor maior.')
+                return redirect('pet_visao_geral', pk=meta.pet.pk)
+
+            # ❗ Continua validação normal
+            if 1 <= progresso <= 100:
                 meta.progresso = progresso
                 meta.save()
                 messages.success(request, 'Progresso da meta atualizado!')
             else:
-                messages.error(request, 'O progresso deve ser entre 0 e 100.')
+                messages.error(request, 'O progresso deve estar entre 1 e 100.')
+
         except (ValueError, TypeError):
             messages.error(request, 'Valor de progresso inválido.')
-    
-    # Redireciona de volta para a Visão Geral
+
     return redirect('pet_visao_geral', pk=meta.pet.pk)
+@login_required
+def meta_remover(request, pk):
+    meta = get_object_or_404(Meta, pk=pk, pet__tutor=request.user)
+
+    if request.method == 'POST':
+        pet_pk = meta.pet.pk
+        meta.delete()
+        messages.success(request, "Meta removida com sucesso!")
+        return redirect('meta_list', pet_pk=pet_pk)
+
+    # Caso alguém tente acessar por GET, apenas redireciona sem apagar
+    messages.error(request, "Requisição inválida para remover meta.")
+    return redirect('meta_list', pet_pk=meta.pet.pk)
+
 
 
 @login_required

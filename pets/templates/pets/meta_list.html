@@ -42,6 +42,11 @@
                         </span>
                         <span class="pet-species">Prazo: {{ meta.data_prazo|date:"d/m/Y" }}</span>
                     </div>
+                    <form action="{% url 'meta_remover' pk=meta.pk %}" method="POST" class="delete-form">
+    {% csrf_token %}
+    <button type="submit" class="delete-button">🗑️</button>
+</form>
+
                 </div>
             {% empty %}
                 <div class="pet-item-empty">
