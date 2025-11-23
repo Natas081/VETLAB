@@ -101,7 +101,10 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
 
 <details>
   <summary><b>Links importantes</b></summary>
- https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog
+ <a href="[https://youtu.be/zW2wJP_l6GA](https://cesar-team-p4240efs.atlassian.net/jira/software/projects/VL/boards/2/backlog)"><b>JIRA</b>
+ 
+   <a href="https://youtu.be/fjw3vrI_izs?si=WMTUx1NLAdQ3c4rN"><b>Screencast dos novos testes</b>
+ 
 </details>
 
 
