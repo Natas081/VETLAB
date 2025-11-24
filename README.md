@@ -104,6 +104,8 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
    <a href="https://youtu.be/fjw3vrI_izs?si=WMTUx1NLAdQ3c4rN"><b>Screencast dos novos testes</b>
 
    <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
+
+   <a href="https://www.youtube.com/watch?v=XDSiNjexNoU"><b>CI/CD</b>
  
 </details>
 
