@@ -106,6 +106,8 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
    <a href="https://docs.google.com/document/d/1haYonev6s5Q9WOeIYoJrRrsFGg0D7MhwFqBmwoDAh8s/edit?tab=t.0"><b>Relatório programação em par</b>
 
    <a href="https://www.youtube.com/watch?v=XDSiNjexNoU"><b>CI/CD</b>
+
+   <a href="https://www.youtube.com/watch?v=E_nA2LyLsVc"><b>Cenários das histórias</b>
  
 </details>
 
