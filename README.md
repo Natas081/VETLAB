@@ -79,7 +79,7 @@ Com funcionalidades como petshop, controle de histórico dos pets, acompanhament
  
   <a href="https://youtu.be/_1yMxFsLk2A?si=i1EOZnxjr9HdGm5W"><b>Screencast dos testes</b>
   
-  <a href="https://youtu.be/JbytNrsByPs"><b>Novas histórias implementadas</b>
+  <a href="[https://youtu.be/JbytNrsByPs](https://youtu.be/cMduOEkkjUM)"><b>Novas histórias implementadas</b>
 
   <a href="https://youtu.be/zW2wJP_l6GA"><b>CI/CD</b>
 
